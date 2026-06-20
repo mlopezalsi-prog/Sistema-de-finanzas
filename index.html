@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan Financiero GLAM</title>
+<title>GLAM FINANZAS</title>
 <style>
 :root{
   --bg:#0f172a;--card:#1e293b;--soft:#334155;--text:#f8fafc;--muted:#cbd5e1;
@@ -180,7 +180,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Preparada</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
 </section>
 
-<section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">v9</div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
+<section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">Online</div></div><div class="card" id="sessionCard"><h3>👤 Sesión</h3><div class="row"><div>Usuario actual</div><b id="currentSessionUser">-</b></div><div class="actions"><button onclick="switchUser()">🔄 Cambiar usuario</button><button class="danger" onclick="logoutApp()">🚪 Cerrar sesión</button></div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
 <section id="nuevo" class="view"><div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>➕ Nuevo movimiento</h2><div class="small">Carga rápida</div></div><div class="badge">Acciones</div></div><div class="grid"><div class="tile" onclick="go('nuevaDeuda')"><span>💳</span>Nueva deuda</div><div class="tile" onclick="openMoneyForm('income','Depósito de sueldo','Quincena / sueldo depositado','Ingreso')"><span>💼</span>Depósito sueldo</div><div class="tile" onclick="openMoneyForm('expense','Pago de deuda','Pago de cuota o deuda','Deuda')"><span>✅</span>Pagar deuda</div><div class="tile" onclick="openMoneyForm('income','Dinero extra','Ingreso no laboral','Ingreso')"><span>💸</span>Dinero extra</div><div class="tile" onclick="openMoneyForm('expense','Micro gasto','Carga rápida, sin PDF','Gasto')"><span>☕</span>Micro gasto</div><div class="tile" onclick="openMoneyForm('income','Ingreso Amanda','Dinero aportado + referencia','Ingreso')"><span>👩</span>Ingreso Amanda</div><div class="tile" onclick="openMoneyForm('expense','Imprevisto','Gasto fuera de planificación','Gasto')"><span>🚨</span>Imprevisto</div></div></section>
 <section id="logros" class="view"><div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>🏆 Logros</h2></div></div><div class="grid"><div class="tile"><span>🥉</span>Primera cuota</div><div class="tile"><span>🔒</span>25%</div><div class="tile"><span>🔒</span>Mes perfecto</div><div class="tile"><span>🔒</span>Libertad financiera</div></div></section>
 <section id="comprobantes" class="view"><div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>📄 Comprobantes</h2></div></div><div class="card"><div class="row"><div>COM-000003</div><button onclick="go('pdfView')">Ver</button></div><div class="row"><div>Adjunto real</div><b>Drive</b></div></div></section>
@@ -434,9 +434,7 @@ function loginApp(){
     localStorage.setItem("pff_user", currentUser);
   }catch(e){}
 
-  var hello = document.getElementById("helloTitle");
-  if (hello) hello.textContent = "👋 Hola " + currentUser;
-
+  updateSessionUI();
   showView("dashboard");
   toast("✅ Bienvenido/a " + currentUser);
   loadSupabaseBase();
@@ -454,6 +452,7 @@ function showView(id){
   if(id !== "login"){
     try{ localStorage.setItem("pff_last_view", id); }catch(e){}
   }
+  if(id==="mas" || id==="dashboard"){ try{ updateSessionUI(); }catch(e){} }
   window.scrollTo(0,0);
 }
 
@@ -1236,8 +1235,7 @@ async function biometricLogin(){
     currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || "Matías";
     localStorage.setItem("pff_logged","1");
     localStorage.setItem("pff_user",currentUser);
-    var hello = document.getElementById("helloTitle");
-    if(hello) hello.textContent = "👋 Hola " + currentUser;
+    updateSessionUI();
     showView("dashboard");
     toast("✅ Acceso biométrico correcto");
     loadSupabaseBase();
@@ -1247,9 +1245,36 @@ async function biometricLogin(){
   }
 }
 
+function updateSessionUI(){
+  var u = currentUser || "Matías";
+  var hello = document.getElementById("helloTitle");
+  if(hello) hello.textContent = "👋 Hola " + u;
+  var cur = document.getElementById("currentSessionUser");
+  if(cur) cur.textContent = u;
+  var loginSel = document.getElementById("loginUser");
+  if(loginSel) loginSel.value = u;
+}
+
 function logoutApp(){
-  try{ localStorage.removeItem("pff_logged"); }catch(e){}
+  try{
+    localStorage.removeItem("pff_logged");
+    localStorage.removeItem("pff_last_view");
+  }catch(e){}
+  debts = [];
+  movements = [];
+  renderDebtGroups();
+  renderMovements("todos");
   showView("login");
+  toast("🚪 Sesión cerrada");
+}
+
+function switchUser(){
+  try{
+    localStorage.removeItem("pff_logged");
+    localStorage.removeItem("pff_last_view");
+  }catch(e){}
+  showView("login");
+  toast("🔄 Elegí el usuario para ingresar");
 }
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -1271,8 +1296,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
   if(logged === "1"){
     currentUser = savedUser || "Matías";
-    var hello = document.getElementById("helloTitle");
-    if(hello) hello.textContent = "👋 Hola " + currentUser;
+    updateSessionUI();
     showView(lastView || "dashboard");
     loadSupabaseBase();
   }else{
