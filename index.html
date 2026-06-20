@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan Financiero Familiar - Base Limpia v9</title>
+<title>Plan Financiero GLAM</title>
 <style>
 :root{
   --bg:#0f172a;--card:#1e293b;--soft:#334155;--text:#f8fafc;--muted:#cbd5e1;
@@ -63,7 +63,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="inputbox"><label>Usuario</label><select id="loginUser"><option>Matías</option><option>Amanda</option></select></div>
  <div class="inputbox"><label>PIN / Contraseña</label><input type="password" value="1234"></div>
  <button class="main-btn" style="margin-top:16px" onclick="loginApp()">Ingresar</button>
- <button class="blue" style="width:100%;margin-top:10px" onclick="loginApp()">🔐 Ingresar con huella</button>
+ <button class="blue" style="width:100%;margin-top:10px" onclick="biometricLogin()">🔐 Ingresar con huella / rostro</button>
 </div></div></section>
 
 <section id="dashboard" class="view">
@@ -177,7 +177,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>⚙️ Configuración</h2><div class="small">Criterios, listas y alertas</div></div></div>
  <div class="card"><h3>🔔 Criterios de alertas</h3><div class="row"><div>Primera alerta</div><select style="max-width:130px"><option>15 días</option><option>10 días</option><option>7 días</option></select></div><div class="row"><div>Segunda alerta</div><select style="max-width:130px"><option>7 días</option><option>5 días</option><option>3 días</option></select></div><div class="row"><div>Última alerta</div><select style="max-width:130px"><option>1 día</option><option>Hoy</option></select></div><button class="main-btn" style="margin-top:12px" onclick="toast('🔔 Criterios de alerta guardados')">Guardar criterios</button></div>
  <div class="card"><h3>☕ Opciones de micro gastos</h3><div id="microOptionsList"></div><div class="inputbox"><label>Nueva opción / edición</label><input id="microOptionInput" placeholder="Ej: Peaje, Supermercado, Taxi..."></div><div class="actions"><button class="main-btn" onclick="addMicroOption()">➕ Agregar</button><button onclick="clearMicroInput()">Limpiar</button></div></div>
- <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella para ingresar</div><b>Preparada</b></div><div class="row"><div>Huella para anular</div><b>Activa</b></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div></div>
+ <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Preparada</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
 </section>
 
 <section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">v9</div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
@@ -269,23 +269,11 @@ let currentReceipt = {
   date:"10/09/2026"
 };
 
-const debts = [
-  {key:"naranja", group:"📆 Planes de cuotas", title:"Naranja Marisa", type:"Plan de cuotas", badge:"Prioritaria", amount:"$526.000", label:"Cuota mensual", subtitle:"24 cuotas · 3 pagadas · 21 pendientes", due:"10/09", priority:"Alta", progress:"12.5%", progressText:"3 de 24 cuotas pagadas · total plan $12.624.000", history:[["Cuota 3 de 24","10/08/2026 · Matías · $538.000","COM-000003"],["Cuota 2 de 24","10/07/2026 · Amanda · $526.000","COM-000002"]]},
-  {key:"lavarropas", group:"📆 Planes de cuotas", title:"Lavarropas Dani", type:"Compra financiada", badge:"Media", amount:"$97.000", label:"Saldo / cuota", subtitle:"Compra financiada · cuota fija a configurar", due:"15/09", priority:"Media", progress:"35%", progressText:"Progreso estimado · faltan cuotas por cargar", history:[["Pago registrado","12/08/2026 · Matías · $25.000","Sin PDF"]]},
-  {key:"tarjeta", group:"💳 Tarjetas / saldos", title:"Naranja Tarjeta", type:"Tarjeta / saldo variable", badge:"Alta", amount:"$248.000", label:"Saldo actual", subtitle:"Saldo variable · pago parcial permitido", due:"10/09", priority:"Alta", progress:"20%", progressText:"Pago parcial cargado · saldo pendiente $248.000", history:[["Pago parcial","05/08/2026 · Amanda · $50.000","COM-000004"]]},
-  {key:"celular", group:"👥 Deudas personales", title:"Celular Dani", type:"Deuda personal", badge:"Menor", amount:"$59.000", label:"Saldo actual", subtitle:"Deuda personal · sin cuota fija", due:"20/09", priority:"Baja", progress:"0%", progressText:"Sin pagos registrados", history:[["Sin pagos","Pendiente de primer pago","Sin comprobante"]]},
-  {key:"ami", group:"🏦 Préstamos", title:"Naranja AMI", type:"Préstamo", badge:"Normal", amount:"$82.000", label:"Saldo actual", subtitle:"Préstamo · vencimiento próximo", due:"05/09", priority:"Normal", progress:"0%", progressText:"Sin pagos registrados", history:[["Sin pagos","Pendiente de confirmación","Sin comprobante"]]}
-];
+let debts = [];
 
-const movements = [
-  {persona:"amanda", titulo:"💰 Movimiento: Ingreso", detalle:"Amanda · Mercado Pago · 09:15", amount:"$120.000", extra:"Tipo: Transferencia automotor", ref:"Referencia: Juan Pérez · Dominio AG923XT"},
-  {persona:"amanda", titulo:"💳 Movimiento: Pago de cuota", detalle:"Naranja Marisa · Cuota 4 de 24 · 10:35", amount:"$538.000", extra:"Cuota $526.000 + recargo $12.000", pdf:true},
-  {persona:"matias", titulo:"☕ Movimiento: Micro gasto", detalle:"Matías · Café / kiosco · 11:20", amount:"$3.500", extra:"Sin PDF"},
-  {persona:"matias", titulo:"💸 Movimiento: Dinero extra", detalle:"Matías · Venta / devolución · 14:05", amount:"$50.000", extra:"Suma al disponible"},
-  {persona:"amanda", titulo:"🚨 Movimiento: Imprevisto", detalle:"Amanda · Farmacia · 18:10", amount:"$18.000", extra:"Sin PDF"}
-];
+let movements = [];
 
-let microOptions = ["Kiosco","Café","Delivery","Estacionamiento","Farmacia","Mercado Pago","Otro"];
+let microOptions = [];
 let editingMicroIndex = null;
 
 
@@ -361,11 +349,19 @@ async function sbSelect(table, query){
 
 async function loadSupabaseBase(){
   setSyncStatus("🔄 Conectando", true);
+
+  debts = [];
+  movements = [];
+  microOptions = [];
+  renderDebtGroups();
+  renderMovements("todos");
+  renderMicroOptions();
+
   var cats = await sbSelect("categorias_micro_gastos", "?select=*&activo=eq.true&order=nombre.asc");
   if(cats && cats.length){
     microOptions = cats.map(function(x){ return x.nombre; });
-    renderMicroOptions();
   }
+  renderMicroOptions();
 
   var db = await sbSelect("deudas", "?select=*&estado=eq.ACTIVA&order=creado_en.desc");
   if(db && db.length){
@@ -387,10 +383,10 @@ async function loadSupabaseBase(){
         history: []
       };
     });
-    renderDebtGroups();
   }
+  renderDebtGroups();
 
-  var movs = await sbSelect("movimientos", "?select=*&order=fecha.desc&limit=20");
+  var movs = await sbSelect("movimientos", "?select=*&order=fecha.desc&limit=30");
   if(movs && movs.length){
     movements = movs.map(function(m){
       var usuario = (m.usuario || "").toLowerCase();
@@ -399,14 +395,16 @@ async function loadSupabaseBase(){
         persona: usuario.indexOf("amanda") >= 0 ? "amanda" : "matias",
         titulo: (m.tipo === "INGRESO" ? "💰 Movimiento: Ingreso" : m.tipo === "PAGO_DEUDA" ? "💳 Movimiento: Pago de deuda" : m.tipo === "ANULACION" ? "🚫 Movimiento: Pago anulado" : "💸 Movimiento: Egreso"),
         detalle: (m.usuario || "-") + " · " + (m.descripcion || ""),
-        amount: formatARS(Math.abs(importe)),
+        amount: (importe >= 0 ? "+" : "-") + formatARS(Math.abs(importe)).replace("$","$"),
         extra: m.categoria || "",
         pdf: !!m.comprobante_id
       };
-    }).reverse();
-    renderMovements("todos");
+    });
   }
-  setSyncStatus("☁️ Conectado", true);
+  renderMovements("todos");
+
+  setSyncStatus("☁️ Online", true);
+  setDebug("✅ Solo Supabase: deudas " + debts.length + ", movimientos " + movements.length + ", categorías " + microOptions.length);
 }
 
 function groupFromCategory(c){
@@ -430,12 +428,15 @@ function parseDateFromShort(shortDate){
 function loginApp(){
   var select = document.getElementById("loginUser");
   currentUser = select ? select.value : "Matías";
+
   try{
     localStorage.setItem("pff_logged", "1");
     localStorage.setItem("pff_user", currentUser);
   }catch(e){}
+
   var hello = document.getElementById("helloTitle");
   if (hello) hello.textContent = "👋 Hola " + currentUser;
+
   showView("dashboard");
   toast("✅ Bienvenido/a " + currentUser);
   loadSupabaseBase();
@@ -738,6 +739,12 @@ function statusClass(badge){
 function renderDebtGroups(){
   var root = document.getElementById("debtGroups");
   if (!root) return;
+  root.innerHTML = "";
+
+  if(!debts || !debts.length){
+    root.innerHTML = '<div class="card"><h3>Sin deudas cargadas</h3><p class="small">Esta vista toma los datos únicamente desde Supabase.</p></div>';
+    return;
+  }
 
   var groups = {};
   for (var i=0; i<debts.length; i++){
@@ -746,11 +753,8 @@ function renderDebtGroups(){
     groups[d.group].push(d);
   }
 
-  root.innerHTML = "";
   Object.keys(groups).forEach(function(groupName){
     var items = groups[groupName];
-    if (!items.length) return;
-
     var title = document.createElement("div");
     title.className = "group-title";
     title.innerHTML = groupName + " <span>" + items.length + " activa" + (items.length > 1 ? "s" : "") + "</span>";
@@ -926,8 +930,14 @@ function renderMovements(filter){
   if (!root) return;
   root.innerHTML = "";
 
-  movements.slice().reverse().forEach(function(m){
-    if (filter !== "todos" && m.persona !== filter) return;
+  var list = (movements || []).filter(function(m){ return filter === "todos" || m.persona === filter; }).slice().reverse();
+
+  if(!list.length){
+    root.innerHTML = '<div class="event">Sin movimientos cargados en Supabase.</div>';
+    return;
+  }
+
+  list.forEach(function(m){
     var div = document.createElement("div");
     div.className = "movement";
     div.setAttribute("data-persona", m.persona);
@@ -936,9 +946,8 @@ function renderMovements(filter){
         '<div><b>' + m.titulo + '</b><div class="small">' + m.detalle + '</div></div>' +
         '<div class="person-pill ' + m.persona + '">' + (m.persona === "matias" ? "Matías" : "Amanda") + '</div>' +
       '</div>' +
-      '<div class="row"><div>Importe</div><b class="' + (m.titulo.indexOf('Ingreso')>=0 || m.titulo.indexOf('Dinero extra')>=0 ? 'money-plus' : 'money-minus') + '">' + (m.titulo.indexOf('Ingreso')>=0 || m.titulo.indexOf('Dinero extra')>=0 ? '+' : '-') + m.amount + '</b></div>' +
+      '<div class="row"><div>Importe</div><b>' + m.amount + '</b></div>' +
       '<div class="row"><div>Detalle</div><b>' + m.extra + '</b></div>' +
-      (m.ref ? '<div class="ref-box">' + m.ref + '</div>' : '') +
       (m.pdf ? '<div class="mov-actions"><button onclick="go(\'pdfView\')">📄 Ver comprobante</button><button class="blue" onclick="toast(\'📎 Comprobante real vinculado a Drive\')">📎 Ver real</button></div>' : '');
     root.appendChild(div);
   });
@@ -1165,17 +1174,101 @@ async function testSupabaseConnection(){
     setDebug("✅ Guardó en movimientos con id: " + r.id);
   }
 }
+
+function updateBioStatus(){
+  var el = document.getElementById("bioStatus");
+  if(!el) return;
+  var enabled = false;
+  try{ enabled = localStorage.getItem("pff_bio_enabled") === "1"; }catch(e){}
+  el.textContent = enabled ? "Activa" : "Preparada";
+}
+
+function randomChallenge(){
+  var arr = new Uint8Array(32);
+  if(window.crypto && crypto.getRandomValues) crypto.getRandomValues(arr);
+  else for(var i=0;i<arr.length;i++) arr[i] = Math.floor(Math.random()*255);
+  return arr;
+}
+
+async function registerBiometric(){
+  if(!window.PublicKeyCredential || !navigator.credentials){
+    toast("⚠️ Este navegador no soporta huella/rostro web");
+    return;
+  }
+  try{
+    var userName = currentUser || (document.getElementById("loginUser") ? document.getElementById("loginUser").value : "Matías");
+    var credential = await navigator.credentials.create({
+      publicKey:{
+        challenge: randomChallenge(),
+        rp:{name:"Plan Financiero Familiar"},
+        user:{id:new TextEncoder().encode(userName), name:userName, displayName:userName},
+        pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+        authenticatorSelection:{authenticatorAttachment:"platform", userVerification:"required"},
+        timeout:60000,
+        attestation:"none"
+      }
+    });
+    if(credential){
+      localStorage.setItem("pff_bio_enabled","1");
+      localStorage.setItem("pff_bio_user",userName);
+      updateBioStatus();
+      toast("✅ Huella/rostro activado");
+    }
+  }catch(e){
+    console.error(e);
+    toast("⚠️ No se pudo activar huella/rostro");
+  }
+}
+
+async function biometricLogin(){
+  var enabled = false;
+  try{ enabled = localStorage.getItem("pff_bio_enabled") === "1"; }catch(e){}
+  if(!enabled){
+    toast("Primero activá huella/rostro desde Configuración");
+    return;
+  }
+  if(!window.PublicKeyCredential || !navigator.credentials){
+    toast("⚠️ Este navegador no soporta huella/rostro web");
+    return;
+  }
+  try{
+    await navigator.credentials.get({publicKey:{challenge:randomChallenge(), userVerification:"required", timeout:60000}});
+    currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || "Matías";
+    localStorage.setItem("pff_logged","1");
+    localStorage.setItem("pff_user",currentUser);
+    var hello = document.getElementById("helloTitle");
+    if(hello) hello.textContent = "👋 Hola " + currentUser;
+    showView("dashboard");
+    toast("✅ Acceso biométrico correcto");
+    loadSupabaseBase();
+  }catch(e){
+    console.error(e);
+    toast("⚠️ Huella/rostro cancelado o no reconocido");
+  }
+}
+
+function logoutApp(){
+  try{ localStorage.removeItem("pff_logged"); }catch(e){}
+  showView("login");
+}
+
 document.addEventListener("DOMContentLoaded", function(){
+  debts = [];
+  movements = [];
+  microOptions = [];
   renderDebtGroups();
-  renderMovements();
+  renderMovements("todos");
   renderCalendar();
   renderMicroOptions();
+  updateBioStatus();
+
   var logged = null, savedUser = null, lastView = null;
   try{
     logged = localStorage.getItem("pff_logged");
     savedUser = localStorage.getItem("pff_user");
     lastView = localStorage.getItem("pff_last_view");
   }catch(e){}
+
   if(logged === "1"){
     currentUser = savedUser || "Matías";
     var hello = document.getElementById("helloTitle");
