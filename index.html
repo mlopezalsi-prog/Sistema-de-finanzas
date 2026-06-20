@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Financiero Familiar - Base Limpia v9</title>
+<style>
+:root{
+  --bg:#0f172a;--card:#1e293b;--soft:#334155;--text:#f8fafc;--muted:#cbd5e1;
+  --green:#22c55e;--red:#fb7185;--blue:#38bdf8;--yellow:#facc15;--orange:#fb923c;--purple:#a78bfa;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#1e293b 0,#0f172a 42%,#020617 100%);color:var(--text);font-family:Arial,sans-serif;padding-bottom:105px}
+.view{display:none}.view.active{display:block;animation:fade .23s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.header{padding:20px 18px 8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.header h2{margin:0;font-size:24px}.small{color:var(--muted);font-size:14px}.badge{background:#172554;color:#bfdbfe;padding:8px 12px;border-radius:20px;font-size:13px;font-weight:800;white-space:nowrap}
+.back{background:#1e293b;border:0;color:white;border-radius:16px;padding:12px 14px;font-size:18px}
+.card{background:rgba(30,41,59,.94);margin:12px;padding:18px;border-radius:24px;box-shadow:0 10px 25px rgba(0,0,0,.25);transition:.18s transform}
+.card:active,button:active,.nav-item:active,.tile:active,.debt-card:active,.day:active{transform:scale(.97)}
+.hero-green,.hero-red,.hero-blue{min-height:148px;display:flex;flex-direction:column;justify-content:center}
+.hero-green{background:linear-gradient(135deg,#16a34a,#22c55e)}.hero-red{background:linear-gradient(135deg,#ef4444,#fb7185)}.hero-blue{background:linear-gradient(135deg,#0284c7,#38bdf8)}
+.hero-green h1,.hero-red h1,.hero-blue h1{margin:0;font-size:39px;letter-spacing:-1px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.metric,.tile{background:#1e293b;border-radius:20px;padding:16px}.tile{text-align:center;font-weight:800}.tile span{font-size:28px;display:block;margin-bottom:6px}.amount{font-size:21px;font-weight:900;margin-top:8px}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid rgba(255,255,255,.08);padding:13px 0}.row:first-of-type{border-top:0}
+.progress{height:15px;background:#334155;border-radius:20px;overflow:hidden;margin:14px 0 8px}.progress div{height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e);border-radius:20px}
+button{border:0;border-radius:18px;padding:15px;background:#334155;color:white;font-size:15px;font-weight:800}
+.main-btn{width:100%;border-radius:24px;padding:19px;background:linear-gradient(135deg,#22c55e,#16a34a);font-size:19px;font-weight:900;box-shadow:0 12px 28px rgba(34,197,94,.34)}
+.danger{background:linear-gradient(135deg,#ef4444,#fb7185)!important}.blue{background:linear-gradient(135deg,#38bdf8,#2563eb)!important}.warn{background:linear-gradient(135deg,#f59e0b,#fb923c)!important}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.actions3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.inputbox{margin-top:10px}label{display:block;color:#cbd5e1;font-size:14px;margin-bottom:8px}
+input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;border-radius:18px;color:white;padding:16px;font-size:17px}textarea{min-height:75px;resize:none}
+.debt-card,.item,.payitem,.movement,.event,.day-history,.micro-option{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:15px;margin-top:12px}
+.debt-head,.movement-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.debt-title{font-size:17px;font-weight:900}.group-title{margin:22px 12px 8px;color:#e2e8f0;font-size:17px;font-weight:900}.group-title span{color:#94a3b8;font-size:13px}
+.status,.person-pill{font-size:12px;border-radius:16px;padding:7px 10px;font-weight:800}.red{background:rgba(251,113,133,.16);color:#fecdd3}.orange{background:rgba(251,146,60,.16);color:#fed7aa}.green{background:rgba(34,197,94,.16);color:#bbf7d0}.blue-soft,.matias{background:rgba(56,189,248,.16);color:#bae6fd}.amanda{background:rgba(167,139,250,.18);color:#ddd6fe}
+.mov-filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:12px}.mov-filters button{padding:12px;border-radius:15px;font-size:13px}.mov-filters .active{background:linear-gradient(135deg,#38bdf8,#2563eb)}
+.mov-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.ref-box{background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.25);border-radius:16px;padding:10px;margin-top:10px;color:#dbeafe;font-size:13px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:12px}.day{min-height:52px;padding:7px;font-size:12px}.day.active{border-color:#38bdf8;background:rgba(56,189,248,.12)}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:3px}.dred{background:#fb7185}.dgreen{background:#22c55e}.dyellow{background:#facc15}.dblue{background:#38bdf8}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}.login-card{width:100%;max-width:390px;background:#111827;border-radius:32px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.35)}.logo{font-size:48px;text-align:center}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.96);border-top:1px solid rgba(255,255,255,.08);height:86px;padding:8px 8px 10px;display:none;grid-template-columns:1fr 1fr 82px 1fr 1fr;gap:4px;z-index:10}.nav-item{border-radius:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:12px;color:#e2e8f0;font-weight:700}.nav-item span{font-size:27px;margin-bottom:4px}.nav-item.active{background:#1e293b;color:white}.fab-wrap{display:flex;justify-content:center;align-items:center}.fab{width:72px;height:72px;border-radius:50%;border:0;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-size:42px;box-shadow:0 12px 28px rgba(34,197,94,.4);margin-top:-32px}
+.toast{display:none;position:fixed;left:18px;right:18px;bottom:105px;background:#0f172a;border:1px solid rgba(34,197,94,.5);color:white;border-radius:20px;padding:14px 16px;z-index:120;box-shadow:0 15px 40px rgba(0,0,0,.35)}
+.modal{display:none;position:fixed;inset:0;background:rgba(2,6,23,.96);z-index:99;align-items:center;justify-content:center;text-align:center;padding:25px}.modal-card{background:#0f172a;border-radius:30px;padding:28px;width:100%;max-width:360px;box-shadow:0 25px 60px rgba(0,0,0,.45)}.checkmark{font-size:72px;animation:pop .5s ease}@keyframes pop{0%{transform:scale(.4);opacity:0}80%{transform:scale(1.12)}100%{transform:scale(1)}}
+.receipt{background:white;color:#111827;border-radius:28px;margin:12px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.25)}.receipt h2{color:#111827}.receipt .ok{font-size:52px;text-align:center;color:#16a34a}.receipt .big{text-align:center;font-size:36px;font-weight:900;margin:8px 0}.receipt .line{display:flex;justify-content:space-between;border-top:1px solid #e5e7eb;padding:12px 0;color:#111827}.receipt .muted{color:#64748b;font-size:13px}
+@media(min-width:720px){body{max-width:430px;margin:auto}.modal{max-width:430px;margin:auto}}
+@media print{body{background:white!important;padding:0;max-width:none}.view:not(#pdfView),.bottom,.header,.actions,.toast{display:none!important}#pdfView{display:block!important}.receipt{box-shadow:none;margin:0;border-radius:0}}
+
+.money-pop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:140;background:rgba(2,6,23,.72);backdrop-filter:blur(4px)}
+.money-pop-card{border-radius:34px;padding:30px 24px;text-align:center;min-width:280px;box-shadow:0 25px 70px rgba(0,0,0,.45);animation:moneyPop .65s ease}
+.money-pop-card.income{background:linear-gradient(135deg,#16a34a,#22c55e)}
+.money-pop-card.expense{background:linear-gradient(135deg,#dc2626,#fb7185)}
+.money-pop-amount{font-size:44px;font-weight:900;letter-spacing:-1px}
+.money-pop-label{font-size:16px;margin-top:8px;color:rgba(255,255,255,.9)}
+@keyframes moneyPop{0%{transform:scale(.45);opacity:0}65%{transform:scale(1.08);opacity:1}100%{transform:scale(1);opacity:1}}
+.money-plus{color:#86efac;font-weight:900}
+.money-minus{color:#fecdd3;font-weight:900}
+</style>
+</head>
+<body>
+
+<section id="login" class="view active"><div class="login"><div class="login-card">
+ <div class="logo">🏦</div><h1 style="text-align:center;margin-bottom:4px">Plan Financiero Familiar</h1><p class="small" style="text-align:center">Matías & Amanda</p>
+ <div class="inputbox"><label>Usuario</label><select id="loginUser"><option>Matías</option><option>Amanda</option></select></div>
+ <div class="inputbox"><label>PIN / Contraseña</label><input type="password" value="1234"></div>
+ <button class="main-btn" style="margin-top:16px" onclick="loginApp()">Ingresar</button>
+ <button class="blue" style="width:100%;margin-top:10px" onclick="loginApp()">🔐 Ingresar con huella</button>
+</div></div></section>
+
+<section id="dashboard" class="view">
+ <div class="header"><div><h2 id="helloTitle">👋 Hola</h2><div class="small">Base limpia v9 · sin parches acumulados</div></div><div class="badge" id="syncStatus">🔌 Supabase</div></div>
+ <div class="card hero-green"><h3>💰 Disponible este mes</h3><h1 id="availableAmount">$705.000</h1><div class="small" style="color:#dcfce7">Sueldo + extras + disponible anterior</div></div>
+ <div class="grid"><div class="metric">🟢 Ingresos<div class="amount">$1.894.000</div></div><div class="metric">🔴 Compromisos<div class="amount">$1.012.000</div></div><div class="metric">🏠 Gastos fijos<div class="amount">$177.000</div></div><div class="metric">🚨 Arrastre<div class="amount">$0</div></div></div>
+ <div class="card"><h3>📒 Últimos movimientos</h3>
+  <div class="movement"><div class="movement-head"><div><b>💰 Amanda · Ingreso</b><div class="small">Transferencia automotor · AG923XT</div></div><b>$120.000</b></div></div>
+  <div class="movement"><div class="movement-head"><div><b>☕ Matías · Micro gasto</b><div class="small">Café / kiosco</div></div><b>$3.500</b></div></div>
+  <button onclick="go('registro')" class="main-btn" style="margin-top:12px">Ver registro diario</button>
+ </div>
+ <div class="card"><h3>🚨 Próximo vencimiento</h3><div class="row"><div>Naranja Marisa</div><b>10/09 · $526.000</b></div><button onclick="go('deudas')" class="main-btn">Ver deudas</button></div>
+ <div class="card"><h3>📦 Cierre de mes</h3><div class="row"><div>Cuota no pagada</div><b>se suma al mes actual</b></div><button onclick="go('cierre')">Ver cierre</button></div>
+</section>
+
+<section id="deudas" class="view">
+ <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>💳 Deudas</h2><div class="small">Agrupadas por tipo</div></div><div class="badge">5 activas</div></div>
+ <div class="card hero-red"><h3>Compromisos activos</h3><h1>$1.012.000</h1><div class="small" style="color:#ffe4e6">Los grupos vacíos no se muestran</div></div>
+ <div class="actions"><button class="main-btn" onclick="go('nuevaDeuda')">➕ Nueva deuda</button><button onclick="go('config')">⚙️ Alertas</button></div>
+ <div id="debtGroups"></div>
+</section>
+
+<section id="detalleDeuda" class="view">
+ <div class="header"><button class="back" onclick="go('deudas')">←</button><div><h2 id="debtTitle">Detalle deuda</h2><div class="small" id="debtType">Tipo</div></div><div class="badge" id="debtBadge">Estado</div></div>
+ <div class="card hero-red"><h3 id="debtLabel">Saldo / cuota</h3><h1 id="debtAmount">$0</h1><div class="small" id="debtSubtitle" style="color:#ffe4e6">Detalle</div></div>
+ <div class="grid"><div class="metric"><b>Vencimiento</b><div class="amount" id="debtDue">--</div></div><div class="metric"><b>Prioridad</b><div class="amount" id="debtPriority">--</div></div></div>
+ <div class="card"><h3>📊 Estado</h3><div class="progress"><div id="debtProgress" style="width:0%"></div></div><div class="small" id="debtProgressText">Sin progreso</div></div>
+ <div class="card"><button class="main-btn" onclick="preparePaymentForCurrentDebt()">💰 Registrar pago</button><div class="actions"><button onclick="openEditDebt()">✏️ Editar deuda</button><button onclick="toast('🧮 Simulador en modo demo')">🧮 Simular adelanto</button></div></div>
+ <div class="card"><h3>📄 Historial</h3><div id="debtHistory"></div></div>
+</section>
+
+
+<section id="editarDeuda" class="view">
+ <div class="header">
+  <button class="back" onclick="go('detalleDeuda')">←</button>
+  <div><h2>✏️ Editar deuda</h2><div class="small" id="editDebtSub">Deuda seleccionada</div></div>
+  <div class="badge">Edición</div>
+ </div>
+ <div class="card">
+  <div class="inputbox"><label>Nombre / acreedor</label><input id="editDebtTitle" placeholder="Nombre de deuda"></div>
+  <div class="inputbox"><label>Tipo de deuda</label><select id="editDebtType"><option>Plan de cuotas</option><option>Tarjeta / saldo variable</option><option>Préstamo</option><option>Deuda personal</option><option>Servicio financiado</option><option>Compra financiada</option><option>Otro</option></select></div>
+  <div class="inputbox"><label>Importe cuota / saldo</label><input id="editDebtAmount" placeholder="$"></div>
+  <div class="inputbox"><label>Vencimiento</label><input id="editDebtDue" placeholder="Ej: 10/09"></div>
+  <div class="inputbox"><label>Prioridad</label><select id="editDebtPriority"><option>Baja</option><option>Normal</option><option>Media</option><option>Alta</option><option>Prioritaria</option></select></div>
+  <div class="inputbox"><label>Observación</label><textarea id="editDebtNote" placeholder="Observaciones internas"></textarea></div>
+  <button class="main-btn" style="margin-top:12px" onclick="saveDebtEdit()">Guardar cambios</button>
+ </div>
+</section>
+
+<section id="nuevaDeuda" class="view">
+ <div class="header"><button class="back" onclick="go('deudas')">←</button><div><h2>➕ Nueva deuda</h2><div class="small">Elegir tipo obligatorio</div></div></div>
+ <div class="card">
+  <div class="inputbox"><label>Nombre / acreedor</label><input id="newDebtName" placeholder="Ej: Naranja, Banco, Dani..."></div>
+  <div class="inputbox"><label>Tipo de deuda</label><select id="newDebtCategory" onchange="tipoDeudaChange()"><option>Plan de cuotas</option><option>Tarjeta / saldo variable</option><option>Préstamo</option><option>Deuda personal</option><option>Servicio financiado</option><option>Compra financiada</option><option>Otro</option></select></div>
+  <div class="inputbox"><label>Importe cuota / saldo</label><input id="newDebtAmount" placeholder="$"></div>
+  <div class="inputbox" id="boxCuotas"><label>Cantidad de cuotas</label><input id="newDebtInstallments" placeholder="Ej: 24"></div>
+  <div class="inputbox"><label>Fecha de primer vencimiento</label><input id="newDebtDue" type="date"></div>
+  <div class="inputbox"><label>Prioridad</label><select id="newDebtPriority"><option>Normal</option><option>Alta</option><option>Prioritaria</option></select></div>
+  <button class="main-btn" style="margin-top:12px" onclick="saveNewDebt()">Guardar deuda</button>
+ </div>
+</section>
+
+<section id="pago" class="view">
+ <div class="header"><button class="back" onclick="go('detalleDeuda')">←</button><div><h2>Registrar pago</h2><div class="small" id="payDebtName">Deuda seleccionada</div></div><div class="badge" id="payDebtType">Pago</div></div>
+ <div class="card hero-green"><h3>💰 Total a registrar</h3><h1 id="payTotalHero">$0</h1><div class="small" id="payTotalSub" style="color:#dcfce7">Importe + recargo</div></div>
+ <div class="card"><h3>Datos</h3><div class="inputbox"><label>Importe cuota / pago</label><input id="payAmountInput" value="" oninput="updatePaymentPreview()"></div><div class="inputbox"><label>Recargo / demora</label><input id="payFeeInput" value="$0" oninput="updatePaymentPreview()"></div><div class="inputbox"><label>Fecha</label><input type="date" value="2026-09-10"></div><div class="inputbox"><label>Pagó</label><select><option>Matías</option><option>Amanda</option><option>Ambos</option></select></div></div>
+ <div class="card"><button class="main-btn" onclick="showSuccess()">✅ Confirmar pago</button></div>
+</section>
+
+<section id="registro" class="view">
+ <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>📒 Registro diario</h2><div class="small">Balance, movimientos y comprobantes</div></div><div class="badge">Hoy</div></div>
+ <div class="card hero-blue"><h3>Balance del día</h3><h1>-$421.500</h1><div class="small" style="color:#e0f2fe">Ingresos - pagos - gastos</div></div>
+ <div class="grid"><div class="metric">Ingresos<div class="amount">$170.000</div></div><div class="metric">Pagos deuda<div class="amount">$538.000</div></div><div class="metric">Gastos<div class="amount">$21.500</div></div><div class="metric">Comprobantes<div class="amount">1</div></div></div>
+ <div class="mov-filters"><button class="active" onclick="filterMov('todos',this)">Todos</button><button onclick="filterMov('matias',this)">Matías</button><button onclick="filterMov('amanda',this)">Amanda</button></div>
+ <div class="card"><h3>Movimientos de hoy</h3><div id="dailyMovements"></div></div>
+</section>
+
+<section id="balanceDiario" class="view">
+ <div class="header"><button class="back" onclick="go('agenda')">←</button><div><h2>📊 Balance diario</h2><div class="small">10/09/2026</div></div><div class="badge">Cierre día</div></div>
+ <div class="card hero-green"><h3>Resultado del día</h3><h1>-$421.500</h1><div class="small" style="color:#dcfce7">Incluye pago de deuda y movimientos diarios</div></div>
+ <div class="card"><h3>Resumen</h3><div class="row"><div>Ingresos Amanda</div><b>$120.000</b></div><div class="row"><div>Ingresos Matías</div><b>$50.000</b></div><div class="row"><div>Pagos de deuda</div><b>$538.000</b></div><div class="row"><div>Micro gastos</div><b>$3.500</b></div><div class="row"><div>Imprevistos</div><b>$18.000</b></div></div>
+ <div class="card"><h3>Detalle Amanda</h3><div class="event">💰 Ingreso · Transferencia automotor · Juan Pérez · AG923XT · $120.000</div><div class="event">💳 Pago cuota Naranja Marisa · $538.000 · 📄 COM-000003</div><div class="event">🚨 Farmacia · $18.000</div></div>
+ <div class="card"><h3>Detalle Matías</h3><div class="event">💸 Dinero extra · Venta / devolución · $50.000</div><div class="event">☕ Micro gasto · Café / kiosco · $3.500</div></div>
+</section>
+
+<section id="ingresos" class="view">
+ <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>💵 Ingresos</h2><div class="small">Sueldo, extras y Amanda</div></div><div class="badge">$1.894.000</div></div>
+ <div class="grid"><div class="tile" onclick="go('ingresoMatias')"><span>👨</span>Sueldo Matías</div><div class="tile" onclick="openMoneyForm('income','Dinero extra','Ingreso no laboral','Ingreso')"><span>💸</span>Dinero extra</div><div class="tile" onclick="openMoneyForm('income','Ingreso Amanda','Dinero aportado + referencia','Ingreso')"><span>👩</span>Ingreso Amanda</div><div class="tile" onclick="toast('📈 Historial en modo demo')"><span>📈</span>Historial</div></div>
+</section>
+<section id="ingresoMatias" class="view"><div class="header"><button class="back" onclick="go('ingresos')">←</button><div><h2>👨 Sueldo Matías</h2><div class="small">Quincenas</div></div></div><div class="card"><div class="inputbox"><label>Tipo</label><select><option>Quincena 1 (5 al 10)</option><option>Quincena 2 (20 al 30)</option><option>Horas extra</option><option>Bonificación laboral</option></select></div><div class="inputbox"><label>Importe</label><input id="sueldoImporte" placeholder="$"></div><button class="main-btn" style="margin-top:12px" onclick="registerSueldo()">Guardar sueldo</button></div></section>
+<section id="dineroExtra" class="view"><div class="header"><button class="back" onclick="go('ingresos')">←</button><div><h2>💸 Dinero extra</h2><div class="small">Ingreso no laboral de Matías</div></div></div><div class="card"><div class="inputbox"><label>Origen</label><select><option>Venta</option><option>Préstamo recibido</option><option>Devolución</option><option>Regalo</option><option>Trabajo extra</option><option>Otro</option></select></div><div class="inputbox"><label>Importe</label><input id="dineroExtraImporte" placeholder="$"></div><button class="main-btn" style="margin-top:12px" onclick="registerTypedIncome('dineroExtraImporte', 'Dinero extra agregado')">Guardar dinero extra</button></div></section>
+<section id="ingresoAmanda" class="view"><div class="header"><button class="back" onclick="go('ingresos')">←</button><div><h2>👩 Ingreso Amanda</h2><div class="small">Dinero aportado + referencia</div></div></div><div class="card hero-blue"><h3>Registrar aporte Amanda</h3><h1>$</h1><div class="small" style="color:#e0f2fe">El detalle lo pueden ver ambos usuarios</div></div><div class="card"><div class="inputbox"><label>Importe cobrado / aportado</label><input id="amandaImporte" placeholder="$"></div><div class="inputbox"><label>Medio de cobro</label><select><option>Transferencia</option><option>Mercado Pago</option><option>Efectivo</option><option>Otro</option></select></div><div class="inputbox"><label>Tipo / referencia del ingreso</label><select><option>Transferencia automotor</option><option>Venta formulario 08</option><option>Venta formulario 12</option><option>Informe de dominio</option><option>Denuncia de venta</option><option>Certificación de firmas</option><option>Cédula</option><option>Trámite general</option><option>Transferencia recibida</option><option>Otro</option></select></div><div class="inputbox"><label>Detalle visible para ambos</label><input placeholder="Ej: Juan Pérez - AG923XT / Formulario 08"></div><button class="main-btn" style="margin-top:12px" onclick="registerTypedIncome('amandaImporte', 'Ingreso Amanda registrado')">Guardar ingreso Amanda</button></div></section>
+
+<section id="gastos" class="view"><div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>💸 Gastos</h2><div class="small">Fijos, micro gastos e imprevistos</div></div><div class="badge">$177.000</div></div><div class="grid"><div class="tile" onclick="go('gastoFijo')"><span>🏠</span>Fijo</div><div class="tile" onclick="openMoneyForm('expense','Micro gasto','Carga rápida, sin PDF','Gasto')"><span>☕</span>Micro gasto</div><div class="tile" onclick="openMoneyForm('expense','Imprevisto','Gasto fuera de planificación','Gasto')"><span>🚨</span>Imprevisto</div><div class="tile" onclick="go('gastoNoPlanificado')"><span>🎁</span>No planificado</div></div></section>
+<section id="microGasto" class="view"><div class="header"><button class="back" onclick="go('gastos')">←</button><div><h2>☕ Micro gasto</h2><div class="small">Carga rápida, sin PDF</div></div></div><div class="card"><div class="inputbox"><label>Importe</label><input id="microGastoImporte" placeholder="$"></div><div class="inputbox"><label>Categoría</label><select id="microCategoriaSelect"></select></div><div class="inputbox"><label>Pagó</label><select><option>Matías</option><option>Amanda</option><option>Ambos</option></select></div><button class="main-btn" style="margin-top:12px" onclick="registerMicroGasto()">Guardar micro gasto</button></div></section>
+<section id="gastoFijo" class="view"><div class="header"><button class="back" onclick="go('gastos')">←</button><div><h2>🏠 Gasto fijo</h2></div></div><div class="card"><div class="inputbox"><label>Concepto</label><input placeholder="Netflix, Claro, Garaje..."></div><div class="inputbox"><label>Importe</label><input placeholder="$"></div><button class="main-btn" style="margin-top:12px" onclick="registerMovement('expense', 42000, 'Gasto fijo registrado')">Guardar</button></div></section>
+<section id="imprevisto" class="view"><div class="header"><button class="back" onclick="go('gastos')">←</button><div><h2>🚨 Imprevisto</h2></div></div><div class="card"><div class="inputbox"><label>Tipo</label><select><option>Auto / moto</option><option>Salud</option><option>Hogar</option><option>Mascotas</option><option>Trámites</option><option>Otro</option></select></div><div class="inputbox"><label>Importe</label><input placeholder="$"></div><button class="main-btn" style="margin-top:12px" onclick="registerMovement('expense', 18000, 'Imprevisto registrado')">Guardar</button></div></section>
+<section id="gastoNoPlanificado" class="view"><div class="header"><button class="back" onclick="go('gastos')">←</button><div><h2>🎁 No planificado</h2></div></div><div class="card"><div class="inputbox"><label>Categoría</label><select><option>Regalo</option><option>Ropa</option><option>Salida</option><option>Compra impulsiva</option><option>Otro</option></select></div><div class="inputbox"><label>Importe</label><input placeholder="$"></div><button class="main-btn" style="margin-top:12px" onclick="registerMovement('expense', 25000, 'Gasto no planificado registrado')">Guardar</button></div></section>
+
+<section id="agenda" class="view">
+ <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>📅 Agenda</h2><div class="small">Vencimientos y balances diarios</div></div><div class="badge">Historial</div></div>
+ <div class="card hero-blue"><h3>Septiembre 2026</h3><h1>Agenda</h1><div class="small" style="color:#e0f2fe">Tocá un día para ver eventos y balance</div></div>
+ <div class="card"><div class="calendar" id="calendarDays"></div></div>
+ <div class="card"><h3 id="agendaTitle">Día 10</h3><div id="agendaList"></div><button class="main-btn" style="margin-top:12px" onclick="go('balanceDiario')">Ver balance del día</button></div>
+ <div class="card"><h3>📚 Historial de balances</h3><div class="day-history"><b>15/09/2026</b><div class="small">Balance: +$48.000 · 6 movimientos</div></div><div class="day-history"><b>10/09/2026</b><div class="small">Balance: -$421.500 · 5 movimientos · 1 comprobante</div></div></div>
+</section>
+
+<section id="cierre" class="view"><div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>📦 Cierre de mes</h2><div class="small">Reglas automáticas</div></div><div class="badge">Mensual</div></div><div class="card"><h3>Resultado del cierre</h3><div class="row"><div>Disponible final</div><b>$120.000</b></div><div class="row"><div>Disponible anterior próximo mes</div><b>$120.000</b></div><div class="row"><div>Cuota no pagada</div><b>$526.000</b></div><div class="row"><div>Se suma al mes actual</div><b>$1.052.000</b></div></div></section>
+
+<section id="config" class="view">
+ <div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>⚙️ Configuración</h2><div class="small">Criterios, listas y alertas</div></div></div>
+ <div class="card"><h3>🔔 Criterios de alertas</h3><div class="row"><div>Primera alerta</div><select style="max-width:130px"><option>15 días</option><option>10 días</option><option>7 días</option></select></div><div class="row"><div>Segunda alerta</div><select style="max-width:130px"><option>7 días</option><option>5 días</option><option>3 días</option></select></div><div class="row"><div>Última alerta</div><select style="max-width:130px"><option>1 día</option><option>Hoy</option></select></div><button class="main-btn" style="margin-top:12px" onclick="toast('🔔 Criterios de alerta guardados')">Guardar criterios</button></div>
+ <div class="card"><h3>☕ Opciones de micro gastos</h3><div id="microOptionsList"></div><div class="inputbox"><label>Nueva opción / edición</label><input id="microOptionInput" placeholder="Ej: Peaje, Supermercado, Taxi..."></div><div class="actions"><button class="main-btn" onclick="addMicroOption()">➕ Agregar</button><button onclick="clearMicroInput()">Limpiar</button></div></div>
+ <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella para ingresar</div><b>Preparada</b></div><div class="row"><div>Huella para anular</div><b>Activa</b></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div></div>
+</section>
+
+<section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">v9</div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
+<section id="nuevo" class="view"><div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>➕ Nuevo movimiento</h2><div class="small">Carga rápida</div></div><div class="badge">Acciones</div></div><div class="grid"><div class="tile" onclick="go('nuevaDeuda')"><span>💳</span>Nueva deuda</div><div class="tile" onclick="openMoneyForm('income','Depósito de sueldo','Quincena / sueldo depositado','Ingreso')"><span>💼</span>Depósito sueldo</div><div class="tile" onclick="openMoneyForm('expense','Pago de deuda','Pago de cuota o deuda','Deuda')"><span>✅</span>Pagar deuda</div><div class="tile" onclick="openMoneyForm('income','Dinero extra','Ingreso no laboral','Ingreso')"><span>💸</span>Dinero extra</div><div class="tile" onclick="openMoneyForm('expense','Micro gasto','Carga rápida, sin PDF','Gasto')"><span>☕</span>Micro gasto</div><div class="tile" onclick="openMoneyForm('income','Ingreso Amanda','Dinero aportado + referencia','Ingreso')"><span>👩</span>Ingreso Amanda</div><div class="tile" onclick="openMoneyForm('expense','Imprevisto','Gasto fuera de planificación','Gasto')"><span>🚨</span>Imprevisto</div></div></section>
+<section id="logros" class="view"><div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>🏆 Logros</h2></div></div><div class="grid"><div class="tile"><span>🥉</span>Primera cuota</div><div class="tile"><span>🔒</span>25%</div><div class="tile"><span>🔒</span>Mes perfecto</div><div class="tile"><span>🔒</span>Libertad financiera</div></div></section>
+<section id="comprobantes" class="view"><div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>📄 Comprobantes</h2></div></div><div class="card"><div class="row"><div>COM-000003</div><button onclick="go('pdfView')">Ver</button></div><div class="row"><div>Adjunto real</div><b>Drive</b></div></div></section>
+
+<section id="pdfView" class="view">
+ <div class="header"><button class="back" onclick="go('detalleDeuda')">←</button><div><h2>Comprobante</h2><div class="small" id="pdfComprobante">COM-000000</div></div><div class="badge">PDF</div></div>
+ <div class="receipt">
+  <div class="ok" id="pdfIcon">✅</div>
+  <h2 style="text-align:center;margin:0" id="pdfTitle">CUOTA REGISTRADA</h2>
+  <div class="big" id="pdfTotal">$0</div>
+  <p style="text-align:center" class="muted">Plan Financiero Familiar</p>
+  <div class="line"><span>Deuda</span><b id="pdfDebt">-</b></div>
+  <div class="line"><span>Tipo</span><b id="pdfDebtTypeLine">-</b></div>
+  <div class="line"><span>Importe base</span><b id="pdfBase">$0</b></div>
+  <div class="line"><span>Recargo</span><b id="pdfFee">$0</b></div>
+  <div class="line"><span>Total abonado</span><b id="pdfTotalLine">$0</b></div>
+  <div class="line"><span>Pagó</span><b id="pdfPerson">-</b></div>
+  <div class="line"><span>Fecha</span><b id="pdfDate">-</b></div>
+  <div class="line"><span>Operación</span><b id="pdfOperation">OP-000000</b></div>
+  <div class="line" id="pdfStatusLine"><span>Estado</span><b id="pdfStatus">VIGENTE</b></div>
+  <div class="line" id="pdfReasonLine"><span>Motivo anulación</span><b id="pdfReason">-</b></div>
+  <p class="muted">Datos originales conservados al momento de registrar la operación.</p>
+ </div>
+ <div class="actions"><button onclick="window.print()" class="main-btn">📄 Guardar PDF</button><button onclick="go('detalleDeuda')">Volver</button></div>
+</section>
+<section id="anular" class="view">
+ <div class="header"><button class="back" onclick="go('detalleDeuda')">←</button><div><h2>Anular operación</h2><div class="small" id="annulSub">Comprobante seleccionado</div></div><div class="badge">Auditoría</div></div>
+ <div class="card hero-red"><h3>🚫 Anulación</h3><h1 id="annulAmount">$0</h1><div class="small" id="annulDebtName" style="color:#ffe4e6">Pago seleccionado</div></div>
+ <div class="card">
+  <div class="row"><div>Comprobante</div><b id="annulReceipt">-</b></div>
+  <div class="row"><div>Operación</div><b id="annulOperation">-</b></div>
+  <label>Motivo obligatorio</label>
+  <textarea id="annulReason" placeholder="Ej: error de importe, deuda equivocada, pago duplicado..."></textarea>
+  <div class="inputbox"><label>Confirmar PIN / Huella</label><input type="password" placeholder="****"></div>
+  <button class="main-btn danger" style="margin-top:12px" onclick="annulCurrentPayment()">Confirmar anulación</button>
+ </div>
+</section>
+
+
+<section id="movimientoDinero" class="view">
+ <div class="header">
+  <button class="back" onclick="go('nuevo')">←</button>
+  <div><h2 id="movTitle">Movimiento</h2><div class="small" id="movSub">Carga rápida</div></div>
+  <div class="badge" id="movBadge">Dinero</div>
+ </div>
+ <div class="card" id="movHero">
+  <h3 id="movHeroTitle">Importe</h3>
+  <h1>$</h1>
+  <div class="small" id="movHeroSub">Se actualizará el disponible del mes</div>
+ </div>
+ <div class="card">
+  <div class="inputbox"><label>Importe</label><input id="movImporte" placeholder="$"></div>
+  <div class="inputbox"><label>Persona</label><select id="movPersona"><option>Matías</option><option>Amanda</option><option>Ambos</option></select></div>
+  <div class="inputbox" id="movTipoBox"><label>Tipo / categoría</label><select id="movTipoSelect"></select></div>
+  <div class="inputbox"><label>Detalle / referencia</label><input id="movDetalle" placeholder="Ej: sueldo, cuota, kiosco, farmacia..."></div>
+  <button class="main-btn" style="margin-top:12px" onclick="confirmMoneyMovement()">Guardar movimiento</button>
+ </div>
+</section>
+
+<div class="money-pop" id="moneyPop">
+  <div class="money-pop-card" id="moneyPopCard">
+    <div class="money-pop-amount" id="moneyPopAmount">+$0</div>
+    <div class="money-pop-label" id="moneyPopLabel">Movimiento registrado</div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="successModal" onclick="openDebt(currentDebtKey);this.style.display='none'"><div class="modal-card"><div class="checkmark">✅</div><h1>CUOTA PAGADA</h1><h2 id="successDebtAmount">$0</h2><p id="successDebtText">Pago registrado</p><p class="small" id="successDebtSub">PDF generado · WhatsApp enviado</p><button class="main-btn" onclick="event.stopPropagation();document.getElementById('successModal').style.display='none';go('pdfView')">📄 Ver comprobante</button></div></div>
+<div class="bottom" id="bottomNav"><div class="nav-item" onclick="go('dashboard')"><span>🏠</span>Inicio</div><div class="nav-item" onclick="go('deudas')"><span>💳</span>Deudas</div><div class="fab-wrap"><button class="fab" onclick="go('nuevo')">+</button></div><div class="nav-item" onclick="go('agenda')"><span>📅</span>Agenda</div><div class="nav-item" onclick="go('mas')"><span>☰</span>Más</div></div>
+
+<script>
+const SUPABASE_URL = "https://oudlxuybdvgjjfapkayi.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im91ZGx4dXliZHZnampmYXBrYXlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5ODA2NDcsImV4cCI6MjA5NzU1NjY0N30.gmQQc_efRC_Pgvon9kSHs5YAsbnAbTfbr3XVC5mJNJM";
+let currentUser = "Matías";
+let currentDebtKey = "naranja";
+let currentPaymentTotal = 0;
+let receiptCounter = 3;
+let currentReceipt = {
+  comprobante:"COM-000003",
+  operation:"OP-000003",
+  debt:"Naranja Marisa",
+  debtType:"Plan de cuotas",
+  base:526000,
+  fee:12000,
+  total:538000,
+  person:"Matías",
+  date:"10/09/2026"
+};
+
+const debts = [
+  {key:"naranja", group:"📆 Planes de cuotas", title:"Naranja Marisa", type:"Plan de cuotas", badge:"Prioritaria", amount:"$526.000", label:"Cuota mensual", subtitle:"24 cuotas · 3 pagadas · 21 pendientes", due:"10/09", priority:"Alta", progress:"12.5%", progressText:"3 de 24 cuotas pagadas · total plan $12.624.000", history:[["Cuota 3 de 24","10/08/2026 · Matías · $538.000","COM-000003"],["Cuota 2 de 24","10/07/2026 · Amanda · $526.000","COM-000002"]]},
+  {key:"lavarropas", group:"📆 Planes de cuotas", title:"Lavarropas Dani", type:"Compra financiada", badge:"Media", amount:"$97.000", label:"Saldo / cuota", subtitle:"Compra financiada · cuota fija a configurar", due:"15/09", priority:"Media", progress:"35%", progressText:"Progreso estimado · faltan cuotas por cargar", history:[["Pago registrado","12/08/2026 · Matías · $25.000","Sin PDF"]]},
+  {key:"tarjeta", group:"💳 Tarjetas / saldos", title:"Naranja Tarjeta", type:"Tarjeta / saldo variable", badge:"Alta", amount:"$248.000", label:"Saldo actual", subtitle:"Saldo variable · pago parcial permitido", due:"10/09", priority:"Alta", progress:"20%", progressText:"Pago parcial cargado · saldo pendiente $248.000", history:[["Pago parcial","05/08/2026 · Amanda · $50.000","COM-000004"]]},
+  {key:"celular", group:"👥 Deudas personales", title:"Celular Dani", type:"Deuda personal", badge:"Menor", amount:"$59.000", label:"Saldo actual", subtitle:"Deuda personal · sin cuota fija", due:"20/09", priority:"Baja", progress:"0%", progressText:"Sin pagos registrados", history:[["Sin pagos","Pendiente de primer pago","Sin comprobante"]]},
+  {key:"ami", group:"🏦 Préstamos", title:"Naranja AMI", type:"Préstamo", badge:"Normal", amount:"$82.000", label:"Saldo actual", subtitle:"Préstamo · vencimiento próximo", due:"05/09", priority:"Normal", progress:"0%", progressText:"Sin pagos registrados", history:[["Sin pagos","Pendiente de confirmación","Sin comprobante"]]}
+];
+
+const movements = [
+  {persona:"amanda", titulo:"💰 Movimiento: Ingreso", detalle:"Amanda · Mercado Pago · 09:15", amount:"$120.000", extra:"Tipo: Transferencia automotor", ref:"Referencia: Juan Pérez · Dominio AG923XT"},
+  {persona:"amanda", titulo:"💳 Movimiento: Pago de cuota", detalle:"Naranja Marisa · Cuota 4 de 24 · 10:35", amount:"$538.000", extra:"Cuota $526.000 + recargo $12.000", pdf:true},
+  {persona:"matias", titulo:"☕ Movimiento: Micro gasto", detalle:"Matías · Café / kiosco · 11:20", amount:"$3.500", extra:"Sin PDF"},
+  {persona:"matias", titulo:"💸 Movimiento: Dinero extra", detalle:"Matías · Venta / devolución · 14:05", amount:"$50.000", extra:"Suma al disponible"},
+  {persona:"amanda", titulo:"🚨 Movimiento: Imprevisto", detalle:"Amanda · Farmacia · 18:10", amount:"$18.000", extra:"Sin PDF"}
+];
+
+let microOptions = ["Kiosco","Café","Delivery","Estacionamiento","Farmacia","Mercado Pago","Otro"];
+let editingMicroIndex = null;
+
+
+
+
+function setSyncStatus(text, ok){
+  var el = document.getElementById("syncStatus");
+  if(!el) return;
+  el.textContent = text;
+  el.style.background = ok ? "#064e3b" : "#7f1d1d";
+  el.style.color = ok ? "#bbf7d0" : "#fecaca";
+}
+function setDebug(msg){
+  var el = document.getElementById("supabaseDebug");
+  if(el) el.textContent = msg;
+  console.log(msg);
+}
+
+async function sbRequest(table, method, payload, query){
+  var url = SUPABASE_URL + "/rest/v1/" + table + (query || "");
+  var opts = {
+    method: method,
+    mode: "cors",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+      "Content-Type": "application/json",
+      "Prefer": "return=representation"
+    }
+  };
+  if(payload !== null && payload !== undefined) opts.body = JSON.stringify(payload);
+
+  try{
+    setDebug("Conectando a " + table + "...");
+    var res = await fetch(url, opts);
+    var txt = await res.text();
+    var data = null;
+    try { data = txt ? JSON.parse(txt) : null; } catch(e) { data = txt; }
+
+    if(!res.ok){
+      var msg = data && data.message ? data.message : ("HTTP " + res.status + " " + txt);
+      setSyncStatus("⚠️ Error " + res.status, false);
+      setDebug("Error Supabase: " + msg);
+      toast("⚠️ Supabase: " + msg);
+      return null;
+    }
+
+    setSyncStatus("☁️ Guardado", true);
+    setDebug("OK " + method + " " + table);
+    return Array.isArray(data) ? data : (data ? [data] : []);
+  }catch(e){
+    setSyncStatus("⚠️ Sin conexión", false);
+    setDebug("No conecta desde este archivo: " + e.message);
+    toast("⚠️ No conecta Supabase. Probá subir a GitHub Pages o abrir con HTTPS.");
+    return null;
+  }
+}
+
+async function sbInsert(table, payload){
+  var data = await sbRequest(table, "POST", payload, "");
+  return data && data[0] ? data[0] : null;
+}
+
+async function sbUpdate(table, payload, column, value){
+  var q = "?" + encodeURIComponent(column) + "=eq." + encodeURIComponent(value);
+  return await sbRequest(table, "PATCH", payload, q);
+}
+
+async function sbSelect(table, query){
+  var data = await sbRequest(table, "GET", null, query || "");
+  return data || [];
+}
+
+async function loadSupabaseBase(){
+  setSyncStatus("🔄 Conectando", true);
+  var cats = await sbSelect("categorias_micro_gastos", "?select=*&activo=eq.true&order=nombre.asc");
+  if(cats && cats.length){
+    microOptions = cats.map(function(x){ return x.nombre; });
+    renderMicroOptions();
+  }
+
+  var db = await sbSelect("deudas", "?select=*&estado=eq.ACTIVA&order=creado_en.desc");
+  if(db && db.length){
+    debts = db.map(function(d){
+      return {
+        key: d.id,
+        supabase_id: d.id,
+        group: groupFromCategory(d.categoria),
+        title: d.nombre,
+        type: d.categoria,
+        badge: d.prioridad || "Normal",
+        amount: formatARS(Number(d.importe || 0)),
+        label: d.categoria === "Plan de cuotas" ? "Cuota mensual" : "Saldo actual",
+        subtitle: d.cuotas_totales ? (d.cuotas_totales + " cuotas · " + (d.cuotas_pagadas || 0) + " pagadas") : (d.observaciones || d.categoria),
+        due: d.vencimiento ? formatDateShort(d.vencimiento) : "--",
+        priority: d.prioridad || "Normal",
+        progress: d.cuotas_totales ? Math.min(100, ((d.cuotas_pagadas || 0) / d.cuotas_totales) * 100) + "%" : "0%",
+        progressText: d.cuotas_totales ? ((d.cuotas_pagadas || 0) + " de " + d.cuotas_totales + " cuotas pagadas") : "Sin cuotas configuradas",
+        history: []
+      };
+    });
+    renderDebtGroups();
+  }
+
+  var movs = await sbSelect("movimientos", "?select=*&order=fecha.desc&limit=20");
+  if(movs && movs.length){
+    movements = movs.map(function(m){
+      var usuario = (m.usuario || "").toLowerCase();
+      var importe = Number(m.importe || 0);
+      return {
+        persona: usuario.indexOf("amanda") >= 0 ? "amanda" : "matias",
+        titulo: (m.tipo === "INGRESO" ? "💰 Movimiento: Ingreso" : m.tipo === "PAGO_DEUDA" ? "💳 Movimiento: Pago de deuda" : m.tipo === "ANULACION" ? "🚫 Movimiento: Pago anulado" : "💸 Movimiento: Egreso"),
+        detalle: (m.usuario || "-") + " · " + (m.descripcion || ""),
+        amount: formatARS(Math.abs(importe)),
+        extra: m.categoria || "",
+        pdf: !!m.comprobante_id
+      };
+    }).reverse();
+    renderMovements("todos");
+  }
+  setSyncStatus("☁️ Conectado", true);
+}
+
+function groupFromCategory(c){
+  if(c === "Plan de cuotas" || c === "Compra financiada") return "📆 Planes de cuotas";
+  if(c === "Tarjeta / saldo variable") return "💳 Tarjetas / saldos";
+  if(c === "Préstamo") return "🏦 Préstamos";
+  if(c === "Deuda personal") return "👥 Deudas personales";
+  return "📌 Otras deudas";
+}
+function formatDateShort(dateStr){
+  if(!dateStr) return "--";
+  var parts = String(dateStr).split("-");
+  if(parts.length === 3) return parts[2] + "/" + parts[1];
+  return dateStr;
+}
+function parseDateFromShort(shortDate){
+  if(!shortDate || shortDate.indexOf("/") < 0) return null;
+  var p = shortDate.split("/");
+  return "2026-" + p[1].padStart(2,"0") + "-" + p[0].padStart(2,"0");
+}
+function loginApp(){
+  var select = document.getElementById("loginUser");
+  currentUser = select ? select.value : "Matías";
+  try{
+    localStorage.setItem("pff_logged", "1");
+    localStorage.setItem("pff_user", currentUser);
+  }catch(e){}
+  var hello = document.getElementById("helloTitle");
+  if (hello) hello.textContent = "👋 Hola " + currentUser;
+  showView("dashboard");
+  toast("✅ Bienvenido/a " + currentUser);
+  loadSupabaseBase();
+}
+
+function go(id){ showView(id); }
+
+function showView(id){
+  var views = document.querySelectorAll(".view");
+  for (var i=0; i<views.length; i++) views[i].classList.remove("active");
+  var target = document.getElementById(id);
+  if (target) target.classList.add("active");
+  var nav = document.getElementById("bottomNav");
+  if (nav) nav.style.display = (id === "login" || id === "pdfView") ? "none" : "grid";
+  if(id !== "login"){
+    try{ localStorage.setItem("pff_last_view", id); }catch(e){}
+  }
+  window.scrollTo(0,0);
+}
+
+function toast(msg){
+  var t = document.getElementById("toast");
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(function(){ t.style.display = "none"; }, 2200);
+}
+
+var availableValue = 705000;
+
+function formatARS(n){
+  return "$" + Math.round(n).toLocaleString("es-AR");
+}
+
+function updateAvailable(){
+  var el = document.getElementById("availableAmount");
+  if (el) el.textContent = formatARS(availableValue);
+}
+
+
+function updatePdfView(){
+  if(!currentReceipt) return;
+  var set = function(id, value){
+    var el = document.getElementById(id);
+    if(el) el.textContent = value;
+  };
+  var isAnnulled = currentReceipt.status === "ANULADO" || currentReceipt.title === "COMPROBANTE ANULADO";
+
+  set("pdfComprobante", currentReceipt.comprobante || "-");
+  set("pdfTitle", isAnnulled ? "COMPROBANTE ANULADO" : "CUOTA REGISTRADA");
+  set("pdfTotal", formatARS(currentReceipt.total || 0));
+  set("pdfDebt", currentReceipt.debt || "-");
+  set("pdfDebtTypeLine", currentReceipt.debtType || "-");
+  set("pdfBase", formatARS(currentReceipt.base || 0));
+  set("pdfFee", formatARS(currentReceipt.fee || 0));
+  set("pdfTotalLine", formatARS(currentReceipt.total || 0));
+  set("pdfPerson", currentReceipt.person || "-");
+  set("pdfDate", currentReceipt.date || "-");
+  set("pdfOperation", currentReceipt.operation || "-");
+  set("pdfStatus", isAnnulled ? "ANULADO" : "VIGENTE");
+  set("pdfReason", isAnnulled ? (currentReceipt.reason || "Sin motivo informado") : "-");
+
+  var icon = document.getElementById("pdfIcon");
+  if(icon) icon.textContent = isAnnulled ? "🚫" : "✅";
+
+  var statusLine = document.getElementById("pdfStatusLine");
+  var reasonLine = document.getElementById("pdfReasonLine");
+  if(statusLine) statusLine.style.display = "flex";
+  if(reasonLine) reasonLine.style.display = isAnnulled ? "flex" : "none";
+}
+
+
+function showMoneyPop(type, amount, label){
+  var pop = document.getElementById("moneyPop");
+  var card = document.getElementById("moneyPopCard");
+  var amountEl = document.getElementById("moneyPopAmount");
+  var labelEl = document.getElementById("moneyPopLabel");
+  if (!pop || !card || !amountEl || !labelEl) return;
+
+  var isIncome = type === "income";
+  card.className = "money-pop-card " + (isIncome ? "income" : "expense");
+  amountEl.textContent = (isIncome ? "+" : "-") + formatARS(amount).replace("$","");
+  labelEl.textContent = label || "Movimiento registrado";
+  pop.style.display = "flex";
+
+  setTimeout(function(){ pop.style.display = "none"; }, 1150);
+}
+
+function registerMovement(type, amount, label, options){
+  options = options || {};
+  if (type === "income") availableValue += amount;
+  else availableValue -= amount;
+  updateAvailable();
+  var now = new Date();
+  var hh = String(now.getHours()).padStart(2,"0");
+  var mm = String(now.getMinutes()).padStart(2,"0");
+  movements.push({
+    persona: (currentUser === "Amanda" ? "amanda" : "matias"),
+    titulo: options.movementTitle || (type === "income" ? "💰 Movimiento: Ingreso" : "💸 Movimiento: Egreso"),
+    detalle: currentUser + " · " + label + " · " + hh + ":" + mm,
+    amount: formatARS(amount),
+    extra: options.extra || (type === "income" ? "Suma al disponible" : "Descuenta del disponible"),
+    pdf: !!options.pdf
+  });
+  renderMovements("todos");
+  if (!options.skipMoneyAnimation) {
+    showMoneyPop(type, amount, label);
+  }
+  toast((type === "income" ? "✅ +" : "✅ -") + formatARS(amount).replace("$","") + " · " + label);
+  sbInsert("movimientos", {
+    tipo: options.movementTitle && options.movementTitle.indexOf("Pago de deuda") >= 0 ? "PAGO_DEUDA" : (type === "income" ? "INGRESO" : "EGRESO"),
+    categoria: options.extra || (type === "income" ? "Ingreso" : "Egreso"),
+    descripcion: label,
+    importe: type === "income" ? amount : -Math.abs(amount),
+    usuario: currentUser,
+    estado: "VIGENTE"
+  });
+}
+
+
+function parseMoneyInput(value){
+  if (!value) return 0;
+  var clean = String(value).replace(/[^\d,-]/g, "").replace(",", ".");
+  var num = Number(clean);
+  return isNaN(num) ? 0 : num;
+}
+
+function registerMicroGasto(){
+  var input = document.getElementById("microGastoImporte");
+  var amount = parseMoneyInput(input ? input.value : "");
+  if (!amount || amount <= 0){
+    toast("⚠️ Ingresá un importe válido");
+    return;
+  }
+  registerMovement("expense", amount, "Micro gasto registrado");
+}
+
+
+let pendingMoneyType = "income";
+let pendingMoneyLabel = "Movimiento";
+
+function openMoneyForm(type, title, subtitle, badge){
+  pendingMoneyType = type;
+  pendingMoneyLabel = title;
+
+  document.getElementById("movTitle").textContent = title;
+  document.getElementById("movSub").textContent = subtitle;
+  document.getElementById("movBadge").textContent = badge;
+  document.getElementById("movHeroTitle").textContent = type === "income" ? "Ingreso a registrar" : "Egreso a registrar";
+  document.getElementById("movHeroSub").textContent = type === "income" ? "Se suma al disponible del mes" : "Se descuenta del disponible del mes";
+
+  var hero = document.getElementById("movHero");
+  hero.className = "card " + (type === "income" ? "hero-green" : "hero-red");
+
+  var sel = document.getElementById("movTipoSelect");
+  var options = [];
+  if(title === "Micro gasto") options = microOptions;
+  else if(title === "Imprevisto") options = ["Auto / moto","Salud","Hogar","Mascotas","Trámites","Otro"];
+  else if(title === "Pago de deuda") options = ["Cuota deuda","Pago parcial","Pago con recargo","Adelanto"];
+  else if(title === "Depósito de sueldo") options = ["Quincena 1 (5 al 10)","Quincena 2 (20 al 30)","Sueldo completo","Horas extra","Bonificación"];
+  else if(title === "Ingreso Amanda") options = ["Transferencia automotor","Venta formulario 08","Venta formulario 12","Informe de dominio","Denuncia de venta","Certificación de firmas","Trámite general","Otro"];
+  else options = ["Venta","Préstamo recibido","Devolución","Regalo","Trabajo extra","Otro"];
+
+  sel.innerHTML = "";
+  options.forEach(function(o){
+    var opt = document.createElement("option");
+    opt.textContent = o;
+    sel.appendChild(opt);
+  });
+
+  var input = document.getElementById("movImporte");
+  if(input) input.value = "";
+  var det = document.getElementById("movDetalle");
+  if(det) det.value = "";
+  go("movimientoDinero");
+}
+
+function confirmMoneyMovement(){
+  var input = document.getElementById("movImporte");
+  var amount = parseMoneyInput(input ? input.value : "");
+  if(!amount || amount <= 0){
+    toast("⚠️ Ingresá un importe válido");
+    return;
+  }
+  if(pendingMoneyLabel === "Pago de deuda"){
+    currentPaymentTotal = amount;
+    receiptCounter++;
+    currentReceipt = {
+      comprobante: "COM-" + String(receiptCounter).padStart(6,"0"),
+      operation: "OP-" + String(receiptCounter).padStart(6,"0"),
+      debt: "Pago de deuda",
+      debtType: "Carga rápida",
+      base: amount,
+      fee: 0,
+      total: amount,
+      person: document.getElementById("movPersona") ? document.getElementById("movPersona").value : currentUser,
+      date: new Date().toLocaleDateString("es-AR")
+    };
+    updatePdfView();
+    registerMovement("expense", amount, "Pago de deuda registrado", {skipMoneyAnimation:true, pdf:true, movementTitle:"💳 Movimiento: Pago de deuda", extra:"Pago registrado desde carga rápida"});
+    var modal = document.getElementById("successModal");
+    var title = document.getElementById("successDebtAmount");
+    var p = document.getElementById("successDebtText");
+    var sub = document.getElementById("successDebtSub");
+    if(title) title.textContent = formatARS(amount);
+    if(p) p.textContent = "Pago de deuda · Carga rápida";
+    if(sub) sub.textContent = currentReceipt.comprobante + " generado · WhatsApp enviado";
+    setTimeout(function(){ if(modal) modal.style.display = "flex"; }, 300);
+  } else {
+    registerMovement(pendingMoneyType, amount, pendingMoneyLabel + " registrado");
+  }
+}
+
+function registerTypedIncome(inputId, label){
+  var input = document.getElementById(inputId);
+  var amount = parseMoneyInput(input ? input.value : "");
+  if(!amount || amount <= 0){
+    toast("⚠️ Ingresá un importe válido");
+    return;
+  }
+  registerMovement("income", amount, label);
+}
+
+function registerSueldo(){
+  registerTypedIncome("sueldoImporte", "Depósito de sueldo registrado");
+}
+
+
+
+function showSuccess(){
+  var amount = parseMoneyInput(document.getElementById("payAmountInput") ? document.getElementById("payAmountInput").value : "");
+  var fee = parseMoneyInput(document.getElementById("payFeeInput") ? document.getElementById("payFeeInput").value : "");
+  var total = amount + fee;
+  if(!total || total <= 0){
+    toast("⚠️ Ingresá un importe válido");
+    return;
+  }
+  currentPaymentTotal = total;
+  var debt = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+  var personSelect = document.querySelector("#pago select");
+  var person = personSelect ? personSelect.value : currentUser;
+  receiptCounter++;
+  currentReceipt = {
+    comprobante: "COM-" + String(receiptCounter).padStart(6,"0"),
+    operation: "OP-" + String(receiptCounter).padStart(6,"0"),
+    debt: debt.title,
+    debtType: debt.type,
+    base: amount,
+    fee: fee,
+    total: total,
+    person: person,
+    date: (document.querySelector("#pago input[type='date']") ? document.querySelector("#pago input[type='date']").value : new Date().toLocaleDateString("es-AR"))
+  };
+  sbInsert("comprobantes", {
+    numero: currentReceipt.comprobante,
+    tipo: "PAGO_DEUDA",
+    pdf_generado: currentReceipt.comprobante,
+    estado: "VIGENTE"
+  }).then(function(comp){
+    sbInsert("pagos_deuda", {
+      deuda_id: debt.supabase_id || null,
+      comprobante_numero: currentReceipt.comprobante,
+      operacion_numero: currentReceipt.operation,
+      fecha_pago: currentReceipt.date,
+      importe_base: amount,
+      recargo: fee,
+      total: total,
+      usuario: person,
+      estado: "VIGENTE"
+    });
+  });
+  updatePdfView();
+  if(debt.history){
+    debt.history.unshift([
+      "Pago registrado",
+      new Date().toLocaleDateString("es-AR") + " · " + person + " · " + formatARS(total),
+      currentReceipt.comprobante
+    ]);
+  }
+  registerMovement("expense", total, "Pago registrado: " + debt.title, {skipMoneyAnimation:true, pdf:true, movementTitle:"💳 Movimiento: Pago de deuda", extra:"Pago vinculado a deuda"});
+  var modal = document.getElementById("successModal");
+  var title = document.getElementById("successDebtAmount");
+  var p = document.getElementById("successDebtText");
+  var sub = document.getElementById("successDebtSub");
+  if(title) title.textContent = formatARS(total);
+  if(p) p.textContent = debt.title + " · Pago registrado";
+  if(sub) sub.textContent = currentReceipt.comprobante + " generado · WhatsApp enviado";
+  setTimeout(function(){
+    if (modal) modal.style.display = "flex";
+  }, 450);
+}
+
+function statusClass(badge){
+  if (badge === "Prioritaria") return "red";
+  if (badge === "Alta" || badge === "Media") return "orange";
+  if (badge === "Menor") return "green";
+  return "blue-soft";
+}
+
+function renderDebtGroups(){
+  var root = document.getElementById("debtGroups");
+  if (!root) return;
+
+  var groups = {};
+  for (var i=0; i<debts.length; i++){
+    var d = debts[i];
+    if (!groups[d.group]) groups[d.group] = [];
+    groups[d.group].push(d);
+  }
+
+  root.innerHTML = "";
+  Object.keys(groups).forEach(function(groupName){
+    var items = groups[groupName];
+    if (!items.length) return;
+
+    var title = document.createElement("div");
+    title.className = "group-title";
+    title.innerHTML = groupName + " <span>" + items.length + " activa" + (items.length > 1 ? "s" : "") + "</span>";
+    root.appendChild(title);
+
+    items.forEach(function(d){
+      var card = document.createElement("div");
+      card.className = "debt-card";
+      card.onclick = function(){ openDebt(d.key); };
+      card.innerHTML =
+        '<div class="debt-head">' +
+          '<div><div class="debt-title">' + d.title + '</div><div class="small">' + d.subtitle + '</div></div>' +
+          '<div class="status ' + statusClass(d.badge) + '">' + d.badge + '</div>' +
+        '</div>' +
+        '<div class="row"><div>Vencimiento</div><b>' + d.due + '</b></div>' +
+        '<div class="row"><div>' + d.label + '</div><b>' + d.amount + '</b></div>' +
+        '<div class="progress"><div style="width:' + d.progress + '"></div></div>';
+      root.appendChild(card);
+    });
+  });
+}
+
+function openDebt(key){
+  currentDebtKey = key;
+  var d = debts.find(function(x){ return x.key === key; }) || debts[0];
+
+  document.getElementById("debtTitle").textContent = d.title;
+  document.getElementById("debtType").textContent = d.type;
+  document.getElementById("debtBadge").textContent = d.badge;
+  document.getElementById("debtLabel").textContent = d.label;
+  document.getElementById("debtAmount").textContent = d.amount;
+  document.getElementById("debtSubtitle").textContent = d.subtitle;
+  document.getElementById("debtDue").textContent = d.due;
+  document.getElementById("debtPriority").textContent = d.priority;
+  document.getElementById("debtProgress").style.width = d.progress;
+  document.getElementById("debtProgressText").textContent = d.progressText;
+
+  var hist = document.getElementById("debtHistory");
+  hist.innerHTML = "";
+  d.history.forEach(function(h){
+    var item = document.createElement("div");
+    item.className = "payitem";
+    var hasPdf = h[2].indexOf("COM") >= 0;
+    item.innerHTML =
+      '<div class="row"><div><b>' + h[0] + '</b><div class="small">' + h[1] + '</div></div><span class="status green">Info</span></div>' +
+      '<div class="row"><div>Comprobante</div><b>' + h[2] + '</b></div>' +
+      (hasPdf ? '<div class="actions3"><button onclick="openReceiptFromHistory(\'' + h[2] + '\')">📄 PDF</button><button class="blue" onclick="toast(\'📎 Comprobante real en Drive\')">📎 Real</button><button class="danger" onclick="openAnnulFromHistory(\'' + h[2] + '\')">🚫 Anular</button></div>' : "");
+    hist.appendChild(item);
+  });
+
+  go("detalleDeuda");
+}
+
+
+function preparePaymentForCurrentDebt(){
+  var d = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+
+  var name = document.getElementById("payDebtName");
+  var type = document.getElementById("payDebtType");
+  var amountInput = document.getElementById("payAmountInput");
+  var feeInput = document.getElementById("payFeeInput");
+
+  if(name) name.textContent = d.title;
+  if(type) type.textContent = d.type || "Pago";
+  if(amountInput) amountInput.value = d.amount || "";
+  if(feeInput) feeInput.value = "$0";
+
+  updatePaymentPreview();
+  go("pago");
+}
+
+function updatePaymentPreview(){
+  var amount = parseMoneyInput(document.getElementById("payAmountInput") ? document.getElementById("payAmountInput").value : "");
+  var fee = parseMoneyInput(document.getElementById("payFeeInput") ? document.getElementById("payFeeInput").value : "");
+  var total = amount + fee;
+  var hero = document.getElementById("payTotalHero");
+  var sub = document.getElementById("payTotalSub");
+  if(hero) hero.textContent = formatARS(total);
+  if(sub) sub.textContent = "Pago " + formatARS(amount) + (fee > 0 ? " + recargo " + formatARS(fee) : " sin recargo");
+}
+
+
+function openEditDebt(){
+  var d = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+  document.getElementById("editDebtSub").textContent = d.title;
+  document.getElementById("editDebtTitle").value = d.title;
+  document.getElementById("editDebtType").value = d.type;
+  document.getElementById("editDebtAmount").value = d.amount;
+  document.getElementById("editDebtDue").value = d.due;
+  document.getElementById("editDebtPriority").value = d.priority || d.badge || "Normal";
+  document.getElementById("editDebtNote").value = d.note || "";
+  go("editarDeuda");
+}
+
+function saveDebtEdit(){
+  var d = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+  d.title = document.getElementById("editDebtTitle").value || d.title;
+  d.type = document.getElementById("editDebtType").value || d.type;
+  d.amount = document.getElementById("editDebtAmount").value || d.amount;
+  d.due = document.getElementById("editDebtDue").value || d.due;
+  d.priority = document.getElementById("editDebtPriority").value || d.priority;
+  d.badge = d.priority === "Prioritaria" ? "Prioritaria" : d.priority;
+  d.note = document.getElementById("editDebtNote").value || "";
+  renderDebtGroups();
+  openDebt(d.key);
+  if(d.supabase_id){
+    sbUpdate("deudas", {
+      nombre: d.title,
+      categoria: d.type,
+      importe: parseMoneyInput(d.amount),
+      vencimiento: parseDateFromShort(d.due),
+      prioridad: d.priority,
+      observaciones: d.note || ""
+    }, "id", d.supabase_id);
+  }
+  toast("✏️ Deuda actualizada");
+}
+
+function openReceiptFromHistory(comprobante){
+  var d = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+  var found = null;
+  if(d && d.history){
+    d.history.forEach(function(h){
+      if(h[2] === comprobante && !found) found = h;
+    });
+  }
+
+  if(found){
+    var isAnnul = String(found[0]).indexOf("Anulación") >= 0 || String(found[0]).indexOf("ANUL") >= 0 || String(found[1]).indexOf("Motivo") >= 0;
+    var motivo = "-";
+    if(String(found[1]).indexOf("Motivo:") >= 0){
+      motivo = String(found[1]).split("Motivo:")[1].trim();
+    }
+    currentReceipt = {
+      comprobante: comprobante,
+      operation: "OP-" + String(comprobante).replace("COM-",""),
+      debt: d.title,
+      debtType: d.type,
+      base: parseMoneyInput(d.amount),
+      fee: 0,
+      total: parseMoneyInput(d.amount),
+      person: String(found[1]).indexOf("Amanda") >= 0 ? "Amanda" : "Matías",
+      date: String(found[1]).split("·")[0].trim(),
+      status: isAnnul ? "ANULADO" : "VIGENTE",
+      title: isAnnul ? "COMPROBANTE ANULADO" : "CUOTA REGISTRADA",
+      reason: motivo
+    };
+    updatePdfView();
+  }
+  go("pdfView");
+}
+
+function openAnnulFromHistory(comprobante){
+  openReceiptFromHistory(comprobante);
+  if(currentReceipt){
+    currentReceipt.status = "VIGENTE";
+    currentReceipt.title = "CUOTA REGISTRADA";
+    currentReceipt.reason = "";
+  }
+  document.getElementById("annulAmount").textContent = formatARS(currentReceipt.total || 0);
+  document.getElementById("annulDebtName").textContent = currentReceipt.debt || "Pago seleccionado";
+  document.getElementById("annulReceipt").textContent = currentReceipt.comprobante || comprobante;
+  document.getElementById("annulOperation").textContent = currentReceipt.operation || "-";
+  document.getElementById("annulSub").textContent = currentReceipt.comprobante || comprobante;
+  var reason = document.getElementById("annulReason");
+  if(reason) reason.value = "";
+  go("anular");
+}
+
+function renderMovements(filter){
+  filter = filter || "todos";
+  var root = document.getElementById("dailyMovements");
+  if (!root) return;
+  root.innerHTML = "";
+
+  movements.slice().reverse().forEach(function(m){
+    if (filter !== "todos" && m.persona !== filter) return;
+    var div = document.createElement("div");
+    div.className = "movement";
+    div.setAttribute("data-persona", m.persona);
+    div.innerHTML =
+      '<div class="movement-head">' +
+        '<div><b>' + m.titulo + '</b><div class="small">' + m.detalle + '</div></div>' +
+        '<div class="person-pill ' + m.persona + '">' + (m.persona === "matias" ? "Matías" : "Amanda") + '</div>' +
+      '</div>' +
+      '<div class="row"><div>Importe</div><b class="' + (m.titulo.indexOf('Ingreso')>=0 || m.titulo.indexOf('Dinero extra')>=0 ? 'money-plus' : 'money-minus') + '">' + (m.titulo.indexOf('Ingreso')>=0 || m.titulo.indexOf('Dinero extra')>=0 ? '+' : '-') + m.amount + '</b></div>' +
+      '<div class="row"><div>Detalle</div><b>' + m.extra + '</b></div>' +
+      (m.ref ? '<div class="ref-box">' + m.ref + '</div>' : '') +
+      (m.pdf ? '<div class="mov-actions"><button onclick="go(\'pdfView\')">📄 Ver comprobante</button><button class="blue" onclick="toast(\'📎 Comprobante real vinculado a Drive\')">📎 Ver real</button></div>' : '');
+    root.appendChild(div);
+  });
+}
+
+function filterMov(persona, btn){
+  var buttons = document.querySelectorAll(".mov-filters button");
+  for (var i=0; i<buttons.length; i++) buttons[i].classList.remove("active");
+  if (btn) btn.classList.add("active");
+  renderMovements(persona);
+}
+
+function renderCalendar(){
+  var c = document.getElementById("calendarDays");
+  if (!c) return;
+  var dots = {5:"dgreen",10:"dred",15:"dblue",20:"dgreen",30:"dyellow"};
+  c.innerHTML = "";
+  for (var i=1; i<=30; i++){
+    var d = document.createElement("div");
+    d.className = "day" + (i===10 ? " active" : "");
+    d.setAttribute("data-day", String(i));
+    d.innerHTML = "<b>" + i + "</b>" + (dots[i] ? '<br><span class="dot ' + dots[i] + '"></span>' : "");
+    d.onclick = (function(day){ return function(){ selectAgenda(String(day)); }; })(i);
+    c.appendChild(d);
+  }
+  selectAgenda("10");
+}
+
+function selectAgenda(day){
+  var days = document.querySelectorAll(".day");
+  for (var i=0; i<days.length; i++) days[i].classList.remove("active");
+  var selected = document.querySelector('.day[data-day="' + day + '"]');
+  if (selected) selected.classList.add("active");
+
+  var title = document.getElementById("agendaTitle");
+  var list = document.getElementById("agendaList");
+  if (!title || !list) return;
+
+  title.textContent = "Día " + day;
+  var data = {
+    "10":["🔴 Naranja Marisa · vence cuota · $526.000","📊 Balance diario disponible al cierre"],
+    "15":["📊 Balance diario cerrado: +$48.000","📒 6 movimientos registrados"],
+    "20":["🟢 Ventana de cobro quincena Matías","💰 Recordatorio de carga de ingreso"],
+    "30":["📦 Cierre de mes automático","⚠️ Revisar cuotas sin confirmar y saldo disponible"]
+  };
+  var arr = data[day] || ["Sin movimientos destacados"];
+  list.innerHTML = "";
+  arr.forEach(function(x){
+    var e = document.createElement("div");
+    e.className = "event";
+    e.textContent = x;
+    list.appendChild(e);
+  });
+}
+
+function renderMicroOptions(){
+  var list = document.getElementById("microOptionsList");
+  var sel = document.getElementById("microCategoriaSelect");
+
+  if (list){
+    list.innerHTML = "";
+    microOptions.forEach(function(x,i){
+      var row = document.createElement("div");
+      row.className = "micro-option";
+      row.innerHTML = '<b>' + x + '</b><div><button onclick="editMicroOption(' + i + ')">✏️</button> <button class="danger" onclick="deleteMicroOption(' + i + ')">🗑</button></div>';
+      list.appendChild(row);
+    });
+  }
+
+  if (sel){
+    sel.innerHTML = "";
+    microOptions.forEach(function(x){
+      var opt = document.createElement("option");
+      opt.textContent = x;
+      sel.appendChild(opt);
+    });
+  }
+}
+
+function addMicroOption(){
+  var input = document.getElementById("microOptionInput");
+  var v = input.value.trim();
+  if (!v){ toast("⚠️ Escribí una opción"); return; }
+  if (editingMicroIndex !== null){
+    microOptions[editingMicroIndex] = v;
+    editingMicroIndex = null;
+    toast("✏️ Opción editada");
+  } else {
+    microOptions.push(v);
+    sbInsert("categorias_micro_gastos", {nombre:v, activo:true});
+    toast("➕ Opción agregada");
+  }
+  input.value = "";
+  renderMicroOptions();
+}
+
+function editMicroOption(i){
+  document.getElementById("microOptionInput").value = microOptions[i];
+  editingMicroIndex = i;
+  toast("✏️ Editando opción");
+}
+
+function deleteMicroOption(i){
+  var removed = microOptions.splice(i,1)[0];
+  sbUpdate("categorias_micro_gastos", {activo:false}, "nombre", removed);
+  toast("🗑 Opción eliminada: " + removed);
+  renderMicroOptions();
+}
+
+function clearMicroInput(){
+  document.getElementById("microOptionInput").value = "";
+  editingMicroIndex = null;
+}
+
+function tipoDeudaChange(){
+  var t = document.getElementById("newDebtCategory").value;
+  var box = document.getElementById("boxCuotas");
+  if (box) box.style.display = (t === "Plan de cuotas" || t === "Compra financiada") ? "block" : "none";
+}
+
+
+function annulCurrentPayment(){
+  var motivoInput = document.getElementById("annulReason");
+  var motivo = motivoInput ? motivoInput.value.trim() : "";
+  if(!motivo){
+    toast("⚠️ Ingresá motivo de anulación");
+    return;
+  }
+
+  var total = currentReceipt && currentReceipt.total ? currentReceipt.total : currentPaymentTotal;
+  availableValue += total;
+  updateAvailable();
+
+  if(currentReceipt){
+    currentReceipt.status = "ANULADO";
+    currentReceipt.title = "COMPROBANTE ANULADO";
+    currentReceipt.reason = motivo;
+  }
+
+  var d = debts.find(function(x){ return x.key === currentDebtKey; }) || debts[0];
+  if(d && d.history){
+    d.history.unshift([
+      "🚫 Anulación",
+      new Date().toLocaleDateString("es-AR") + " · " + currentUser + " · Motivo: " + motivo,
+      (currentReceipt && currentReceipt.comprobante ? currentReceipt.comprobante : "COM-ANULADO")
+    ]);
+  }
+
+  movements.push({
+    persona: (currentUser === "Amanda" ? "amanda" : "matias"),
+    titulo: "🚫 Movimiento: Pago anulado",
+    detalle: currentUser + " · " + (currentReceipt ? currentReceipt.debt : "Deuda") + " · Motivo: " + motivo,
+    amount: formatARS(total),
+    extra: "Devuelve dinero al disponible",
+    pdf: true
+  });
+
+  updatePdfView();
+  renderMovements("todos");
+  openDebt(currentDebtKey);
+  toast("🚫 Pago anulado · +" + formatARS(total).replace("$","") + " reintegrado");
+}
+
+
+async function saveNewDebt(){
+  var name = document.getElementById("newDebtName").value.trim();
+  var category = document.getElementById("newDebtCategory").value;
+  var amount = parseMoneyInput(document.getElementById("newDebtAmount").value);
+  var installments = parseInt(document.getElementById("newDebtInstallments").value || "0", 10);
+  var due = document.getElementById("newDebtDue").value || null;
+  var priority = document.getElementById("newDebtPriority").value;
+
+  if(!name){
+    toast("⚠️ Ingresá nombre de deuda");
+    return;
+  }
+
+  var saved = await sbInsert("deudas", {
+    nombre: name,
+    categoria: category,
+    importe: amount,
+    cuotas_totales: installments || null,
+    cuotas_pagadas: 0,
+    vencimiento: due,
+    prioridad: priority,
+    observaciones: "",
+    estado: "ACTIVA"
+  });
+
+  var localDebt = {
+    key: saved && saved.id ? saved.id : ("local_" + Date.now()),
+    supabase_id: saved && saved.id ? saved.id : null,
+    group: groupFromCategory(category),
+    title: name,
+    type: category,
+    badge: priority,
+    amount: formatARS(amount),
+    label: category === "Plan de cuotas" ? "Cuota mensual" : "Saldo actual",
+    subtitle: installments ? (installments + " cuotas · 0 pagadas") : category,
+    due: due ? formatDateShort(due) : "--",
+    priority: priority,
+    progress: "0%",
+    progressText: installments ? "0 de " + installments + " cuotas pagadas" : "Sin cuotas configuradas",
+    history: []
+  };
+  debts.unshift(localDebt);
+  renderDebtGroups();
+  toast("💳 Deuda guardada en Supabase");
+  go("deudas");
+}
+
+
+async function testSupabaseConnection(){
+  var r = await sbInsert("movimientos", {
+    tipo:"TEST",
+    categoria:"Prueba",
+    descripcion:"Prueba de conexión desde HTML",
+    importe:0,
+    usuario:currentUser,
+    estado:"VIGENTE"
+  });
+  if(r){
+    toast("✅ Supabase conectado y guardando");
+    setDebug("✅ Guardó en movimientos con id: " + r.id);
+  }
+}
+document.addEventListener("DOMContentLoaded", function(){
+  renderDebtGroups();
+  renderMovements();
+  renderCalendar();
+  renderMicroOptions();
+  var logged = null, savedUser = null, lastView = null;
+  try{
+    logged = localStorage.getItem("pff_logged");
+    savedUser = localStorage.getItem("pff_user");
+    lastView = localStorage.getItem("pff_last_view");
+  }catch(e){}
+  if(logged === "1"){
+    currentUser = savedUser || "Matías";
+    var hello = document.getElementById("helloTitle");
+    if(hello) hello.textContent = "👋 Hola " + currentUser;
+    showView(lastView || "dashboard");
+    loadSupabaseBase();
+  }else{
+    showView("login");
+  }
+});
+</script>
+</body>
+</html>
