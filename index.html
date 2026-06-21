@@ -199,7 +199,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>⚙️ Configuración</h2><div class="small">Criterios, listas y alertas</div></div></div>
  <div class="card"><h3>🔔 Criterios de alertas</h3><div class="row"><div>Primera alerta</div><select style="max-width:130px"><option>15 días</option><option>10 días</option><option>7 días</option></select></div><div class="row"><div>Segunda alerta</div><select style="max-width:130px"><option>7 días</option><option>5 días</option><option>3 días</option></select></div><div class="row"><div>Última alerta</div><select style="max-width:130px"><option>1 día</option><option>Hoy</option></select></div><button class="main-btn" style="margin-top:12px" onclick="toast('🔔 Criterios de alerta guardados')">Guardar criterios</button></div>
  <div class="card"><h3>☕ Opciones de micro gastos</h3><div id="microOptionsList"></div><div class="inputbox"><label>Nueva opción / edición</label><input id="microOptionInput" placeholder="Ej: Peaje, Supermercado, Taxi..."></div><div class="actions"><button class="main-btn" onclick="addMicroOption()">➕ Agregar</button><button onclick="clearMicroInput()">Limpiar</button></div></div>
- <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Activa por defecto</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
+ <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Opcional</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
 </section>
 
 <section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">Online</div></div><div class="card" id="sessionCard"><h3>👤 Sesión</h3><div class="row"><div>Usuario actual</div><b id="currentSessionUser">-</b></div><div class="actions"><button onclick="switchUser()">🔄 Cambiar usuario</button><button class="danger" onclick="logoutApp()">🚪 Cerrar sesión</button></div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
@@ -272,7 +272,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
   </div>
 </div>
 <div class="toast" id="toast"></div>
-<div class="modal" id="successModal" onclick="openDebt(currentDebtKey);this.style.display='none'"><div class="modal-card"><div class="checkmark">✅</div><h1>CUOTA PAGADA</h1><h2 id="successDebtAmount">$0</h2><p id="successDebtText">Pago registrado</p><p class="small" id="successDebtSub">PDF generado</p><button class="main-btn" onclick="event.stopPropagation();document.getElementById('successModal').style.display='none';go('pdfView')">📄 Ver comprobante</button></div></div>
+<div class="modal" id="successModal" onclick="openDebt(currentDebtKey);this.style.display='none'"><div class="modal-card"><div class="checkmark">✅</div><h1>CUOTA PAGADA</h1><h2 id="successDebtAmount">$0</h2><p id="successDebtText">Pago registrado</p><p class="small" id="successDebtSub">PDF generado · WhatsApp enviado</p><button class="main-btn" onclick="event.stopPropagation();document.getElementById('successModal').style.display='none';go('pdfView')">📄 Ver comprobante</button></div></div>
 <div class="bottom" id="bottomNav"><div class="nav-item" onclick="go('dashboard')"><span>🏠</span>Inicio</div><div class="nav-item" onclick="go('deudas')"><span>💳</span>Deudas</div><div class="fab-wrap"><button class="fab" onclick="go('nuevo')">+</button></div><div class="nav-item" onclick="go('agenda')"><span>📅</span>Agenda</div><div class="nav-item" onclick="go('mas')"><span>☰</span>Más</div></div>
 
 <script>
@@ -718,7 +718,6 @@ function loginApp(){
   showView("dashboard");
   toast("✅ Bienvenido/a " + currentUser);
   startInactivityWatch();
-  if(isBiometricSupported() && localStorage.getItem("pff_bio_enabled") !== "1"){ setTimeout(function(){ registerBiometric(); }, 700); }
   loadSupabaseBase();
 }
 
@@ -1496,7 +1495,18 @@ function updateSessionUI(){
   if(loginSel) loginSel.value = u;
 }
 
-
+function logoutApp(){
+  try{
+    localStorage.removeItem("pff_logged");
+    localStorage.removeItem("pff_last_view");
+  }catch(e){}
+  debts = [];
+  movements = [];
+  renderDebtGroups();
+  renderMovements("todos");
+  showView("login");
+  toast("🚪 Sesión cerrada");
+}
 
 function switchUser(){
   try{
@@ -1510,7 +1520,6 @@ function switchUser(){
 
 var SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 var inactivityTimer = null;
-var biometricPromptInProgress = false;
 
 function isBiometricSupported(){
   return !!(window.PublicKeyCredential && navigator.credentials && window.crypto);
@@ -1519,7 +1528,42 @@ function isBiometricSupported(){
 function updateBioStatus(){
   var el = document.getElementById("bioStatus");
   if(!el) return;
-  el.textContent = isBiometricSupported() ? "Activa por defecto" : "No disponible";
+  el.textContent = isBiometricSupported() ? "Opcional" : "No disponible";
+}
+
+function startInactivityWatch(){
+  resetInactivityTimer();
+}
+
+function resetInactivityTimer(){
+  clearTimeout(inactivityTimer);
+  var logged = null;
+  try{ logged = localStorage.getItem("pff_logged"); }catch(e){}
+  if(logged !== "1") return;
+  inactivityTimer = setTimeout(function(){
+    autoLogoutByInactivity();
+  }, SESSION_TIMEOUT_MS);
+}
+
+function autoLogoutByInactivity(){
+  try{
+    localStorage.removeItem("pff_logged");
+    localStorage.removeItem("pff_last_view");
+  }catch(e){}
+  try{
+    debts = [];
+    movements = [];
+    renderDebtGroups();
+    renderMovements("todos");
+  }catch(e){}
+  showView("login");
+  toast("🔒 Sesión cerrada por inactividad");
+}
+
+function setupActivityListeners(){
+  ["click","touchstart","mousemove","keydown","scroll"].forEach(function(evt){
+    document.addEventListener(evt, resetInactivityTimer, {passive:true});
+  });
 }
 
 function randomChallenge(){
@@ -1556,28 +1600,26 @@ async function registerBiometric(){
       return true;
     }
   }catch(e){
-    console.warn("Biometría no registrada", e);
+    console.warn(e);
     toast("⚠️ No se pudo activar huella/rostro");
   }
   return false;
 }
 
 async function biometricLogin(){
+  if(localStorage.getItem("pff_bio_enabled") !== "1"){
+    toast("Primero ingresá con PIN y activá huella/rostro desde Configuración");
+    return false;
+  }
   if(!isBiometricSupported()){
     toast("⚠️ Este navegador no soporta huella/rostro web");
     return false;
   }
-  if(biometricPromptInProgress) return false;
-  biometricPromptInProgress = true;
   try{
     await navigator.credentials.get({
-      publicKey:{
-        challenge: randomChallenge(),
-        userVerification:"required",
-        timeout:60000
-      }
+      publicKey:{challenge: randomChallenge(), userVerification:"required", timeout:60000}
     });
-    currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || currentUser || "Matías";
+    currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || "Matías";
     localStorage.setItem("pff_logged","1");
     localStorage.setItem("pff_user",currentUser);
     updateSessionUI();
@@ -1587,26 +1629,19 @@ async function biometricLogin(){
     loadSupabaseBase();
     return true;
   }catch(e){
-    console.warn("Biometría cancelada/no reconocida", e);
-    toast("⚠️ Huella/rostro cancelado o no reconocido");
+    console.warn(e);
+    toast("⚠️ No hay llave registrada. Ingresá con PIN.");
     return false;
-  }finally{
-    biometricPromptInProgress = false;
   }
 }
 
 async function requireBiometricForSensitiveAction(actionName){
-  if(!isBiometricSupported()){
-    toast("⚠️ Validá con PIN de respaldo para: " + actionName);
+  if(localStorage.getItem("pff_bio_enabled") !== "1" || !isBiometricSupported()){
     return true;
   }
   try{
     await navigator.credentials.get({
-      publicKey:{
-        challenge: randomChallenge(),
-        userVerification:"required",
-        timeout:60000
-      }
+      publicKey:{challenge: randomChallenge(), userVerification:"required", timeout:60000}
     });
     return true;
   }catch(e){
@@ -1615,64 +1650,6 @@ async function requireBiometricForSensitiveAction(actionName){
   }
 }
 
-function startInactivityWatch(){
-  resetInactivityTimer();
-}
-
-function resetInactivityTimer(){
-  clearTimeout(inactivityTimer);
-  var logged = null;
-  try{ logged = localStorage.getItem("pff_logged"); }catch(e){}
-  if(logged !== "1") return;
-  inactivityTimer = setTimeout(function(){
-    autoLogoutByInactivity();
-  }, SESSION_TIMEOUT_MS);
-}
-
-function autoLogoutByInactivity(){
-  try{
-    localStorage.removeItem("pff_logged");
-    localStorage.removeItem("pff_last_view");
-  }catch(e){}
-  debts = [];
-  movements = [];
-  try{ renderDebtGroups(); renderMovements("todos"); }catch(e){}
-  showView("login");
-  toast("🔒 Sesión cerrada por inactividad");
-}
-
-function setupActivityListeners(){
-  ["click","touchstart","mousemove","keydown","scroll"].forEach(function(evt){
-    document.addEventListener(evt, resetInactivityTimer, {passive:true});
-  });
-}
-
-function tryAutoBiometricOnStart(){
-  var logged = null, savedUser = null;
-  try{
-    logged = localStorage.getItem("pff_logged");
-    savedUser = localStorage.getItem("pff_user");
-  }catch(e){}
-  if(logged === "1" && isBiometricSupported()){
-    currentUser = savedUser || currentUser || "Matías";
-    setTimeout(function(){ biometricLogin(); }, 450);
-  }
-}
-
-
-
-function logoutApp(){
-  try{
-    localStorage.removeItem("pff_logged");
-    localStorage.removeItem("pff_last_view");
-  }catch(e){}
-  clearTimeout(inactivityTimer);
-  debts = [];
-  movements = [];
-  try{ renderDebtGroups(); renderMovements("todos"); }catch(e){}
-  showView("login");
-  toast("🚪 Sesión cerrada");
-}
 
 document.addEventListener("DOMContentLoaded", function(){
   debts = [];
@@ -1698,7 +1675,6 @@ document.addEventListener("DOMContentLoaded", function(){
     startInactivityWatch();
     loadSupabaseBase();
   }else{
-    tryAutoBiometricOnStart();
     showView("login");
   }
 });
