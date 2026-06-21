@@ -63,7 +63,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="inputbox"><label>Usuario</label><select id="loginUser"><option>Matías</option><option>Amanda</option></select></div>
  <div class="inputbox"><label>PIN / Contraseña</label><input type="password" value="1234"></div>
  <button class="main-btn" style="margin-top:16px" onclick="loginApp()">Ingresar</button>
- <button class="blue" style="width:100%;margin-top:10px" onclick="biometricLogin()">🔐 Ingresar con huella / rostro</button>
+ <button class="blue" style="width:100%;margin-top:10px" onclick="biometricLogin()">🔐 Ingresar con huella / rostro</button><button style="width:100%;margin-top:10px" onclick="resetLocalSession()">Reiniciar sesión local</button>
 </div></div></section>
 
 <section id="dashboard" class="view">
@@ -199,7 +199,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>⚙️ Configuración</h2><div class="small">Criterios, listas y alertas</div></div></div>
  <div class="card"><h3>🔔 Criterios de alertas</h3><div class="row"><div>Primera alerta</div><select style="max-width:130px"><option>15 días</option><option>10 días</option><option>7 días</option></select></div><div class="row"><div>Segunda alerta</div><select style="max-width:130px"><option>7 días</option><option>5 días</option><option>3 días</option></select></div><div class="row"><div>Última alerta</div><select style="max-width:130px"><option>1 día</option><option>Hoy</option></select></div><button class="main-btn" style="margin-top:12px" onclick="toast('🔔 Criterios de alerta guardados')">Guardar criterios</button></div>
  <div class="card"><h3>☕ Opciones de micro gastos</h3><div id="microOptionsList"></div><div class="inputbox"><label>Nueva opción / edición</label><input id="microOptionInput" placeholder="Ej: Peaje, Supermercado, Taxi..."></div><div class="actions"><button class="main-btn" onclick="addMicroOption()">➕ Agregar</button><button onclick="clearMicroInput()">Limpiar</button></div></div>
- <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Opcional</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
+ <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Preparada</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
 </section>
 
 <section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">Online</div></div><div class="card" id="sessionCard"><h3>👤 Sesión</h3><div class="row"><div>Usuario actual</div><b id="currentSessionUser">-</b></div><div class="actions"><button onclick="switchUser()">🔄 Cambiar usuario</button><button class="danger" onclick="logoutApp()">🚪 Cerrar sesión</button></div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
@@ -714,6 +714,7 @@ function loginApp(){
     localStorage.setItem("pff_user", currentUser);
   }catch(e){}
 
+  clearTimeout(inactivityTimer);
   updateSessionUI();
   showView("dashboard");
   toast("✅ Bienvenido/a " + currentUser);
@@ -1369,15 +1370,13 @@ function tipoDeudaChange(){
 }
 
 
-async function annulCurrentPayment(){
+function annulCurrentPayment(){
   var motivoInput = document.getElementById("annulReason");
   var motivo = motivoInput ? motivoInput.value.trim() : "";
   if(!motivo){
     toast("⚠️ Ingresá motivo de anulación");
     return;
   }
-  var okBio = await requireBiometricForSensitiveAction("Anular pago");
-  if(!okBio) return;
 
   var total = currentReceipt && currentReceipt.total ? currentReceipt.total : currentPaymentTotal;
   availableValue += total;
@@ -1477,13 +1476,77 @@ async function testSupabaseConnection(){
   }
 }
 
+function updateBioStatus(){
+  var el = document.getElementById("bioStatus");
+  if(!el) return;
+  var enabled = false;
+  try{ enabled = localStorage.getItem("pff_bio_enabled") === "1"; }catch(e){}
+  el.textContent = enabled ? "Activa" : "Preparada";
+}
 
+function randomChallenge(){
+  var arr = new Uint8Array(32);
+  if(window.crypto && crypto.getRandomValues) crypto.getRandomValues(arr);
+  else for(var i=0;i<arr.length;i++) arr[i] = Math.floor(Math.random()*255);
+  return arr;
+}
 
+async function registerBiometric(){
+  if(!window.PublicKeyCredential || !navigator.credentials){
+    toast("⚠️ Este navegador no soporta huella/rostro web");
+    return;
+  }
+  try{
+    var userName = currentUser || (document.getElementById("loginUser") ? document.getElementById("loginUser").value : "Matías");
+    var credential = await navigator.credentials.create({
+      publicKey:{
+        challenge: randomChallenge(),
+        rp:{name:"Plan Financiero Familiar"},
+        user:{id:new TextEncoder().encode(userName), name:userName, displayName:userName},
+        pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
+        authenticatorSelection:{authenticatorAttachment:"platform", userVerification:"required"},
+        timeout:60000,
+        attestation:"none"
+      }
+    });
+    if(credential){
+      localStorage.setItem("pff_bio_enabled","1");
+      localStorage.setItem("pff_bio_user",userName);
+      updateBioStatus();
+  setupActivityListeners();
+      toast("✅ Huella/rostro activado");
+    }
+  }catch(e){
+    console.error(e);
+    toast("⚠️ No se pudo activar huella/rostro");
+  }
+}
 
-
-async 
-
-async 
+async function biometricLogin(){
+  var enabled = false;
+  try{ enabled = localStorage.getItem("pff_bio_enabled") === "1"; }catch(e){}
+  if(!enabled){
+    toast("Primero activá huella/rostro desde Configuración");
+    return;
+  }
+  if(!window.PublicKeyCredential || !navigator.credentials){
+    toast("⚠️ Este navegador no soporta huella/rostro web");
+    return;
+  }
+  try{
+    await navigator.credentials.get({publicKey:{challenge:randomChallenge(), userVerification:"required", timeout:60000}});
+    currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || "Matías";
+    localStorage.setItem("pff_logged","1");
+    localStorage.setItem("pff_user",currentUser);
+    updateSessionUI();
+    showView("dashboard");
+    toast("✅ Acceso biométrico correcto");
+    loadSupabaseBase();
+  }catch(e){
+    console.error(e);
+    toast("⚠️ Huella/rostro cancelado o no reconocido");
+  }
+}
 
 function updateSessionUI(){
   var u = currentUser || "Matías";
@@ -1500,10 +1563,10 @@ function logoutApp(){
     localStorage.removeItem("pff_logged");
     localStorage.removeItem("pff_last_view");
   }catch(e){}
+  clearTimeout(inactivityTimer);
   debts = [];
   movements = [];
-  renderDebtGroups();
-  renderMovements("todos");
+  try{ renderDebtGroups(); renderMovements("todos"); }catch(e){}
   showView("login");
   toast("🚪 Sesión cerrada");
 }
@@ -1521,133 +1584,67 @@ function switchUser(){
 var SESSION_TIMEOUT_MS = 5 * 60 * 1000;
 var inactivityTimer = null;
 
-function isBiometricSupported(){
-  return !!(window.PublicKeyCredential && navigator.credentials && window.crypto);
-}
-
-function updateBioStatus(){
-  var el = document.getElementById("bioStatus");
-  if(!el) return;
-  el.textContent = isBiometricSupported() ? "Opcional" : "No disponible";
+function isOnLoginView(){
+  var login = document.getElementById("login");
+  return !!(login && login.classList.contains("active"));
 }
 
 function startInactivityWatch(){
+  clearTimeout(inactivityTimer);
   resetInactivityTimer();
 }
 
 function resetInactivityTimer(){
   clearTimeout(inactivityTimer);
+
   var logged = null;
   try{ logged = localStorage.getItem("pff_logged"); }catch(e){}
-  if(logged !== "1") return;
+
+  // Nunca cerrar por inactividad si estamos en login o si no hay sesión real.
+  if(logged !== "1" || isOnLoginView()) return;
+
   inactivityTimer = setTimeout(function(){
     autoLogoutByInactivity();
   }, SESSION_TIMEOUT_MS);
 }
 
 function autoLogoutByInactivity(){
+  var logged = null;
+  try{ logged = localStorage.getItem("pff_logged"); }catch(e){}
+
+  // Protección extra: no mostrar mensaje falso en login.
+  if(logged !== "1" || isOnLoginView()){
+    clearTimeout(inactivityTimer);
+    return;
+  }
+
   try{
     localStorage.removeItem("pff_logged");
     localStorage.removeItem("pff_last_view");
   }catch(e){}
-  try{
-    debts = [];
-    movements = [];
-    renderDebtGroups();
-    renderMovements("todos");
-  }catch(e){}
+
+  clearTimeout(inactivityTimer);
   showView("login");
   toast("🔒 Sesión cerrada por inactividad");
 }
 
 function setupActivityListeners(){
-  ["click","touchstart","mousemove","keydown","scroll"].forEach(function(evt){
-    document.addEventListener(evt, resetInactivityTimer, {passive:true});
+  ["click","touchstart","keydown","scroll"].forEach(function(evt){
+    document.addEventListener(evt, function(){
+      if(!isOnLoginView()) resetInactivityTimer();
+    }, {passive:true});
   });
 }
 
-function randomChallenge(){
-  var arr = new Uint8Array(32);
-  if(window.crypto && crypto.getRandomValues) crypto.getRandomValues(arr);
-  else for(var i=0;i<arr.length;i++) arr[i] = Math.floor(Math.random()*255);
-  return arr;
-}
-
-async function registerBiometric(){
-  if(!isBiometricSupported()){
-    toast("⚠️ Este navegador no soporta huella/rostro web");
-    return false;
-  }
+function resetLocalSession(){
   try{
-    var userName = currentUser || (document.getElementById("loginUser") ? document.getElementById("loginUser").value : "Matías");
-    var credential = await navigator.credentials.create({
-      publicKey:{
-        challenge: randomChallenge(),
-        rp:{name:"Finanzas GLAM"},
-        user:{id:new TextEncoder().encode(userName), name:userName, displayName:userName},
-        pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],
-        authenticatorSelection:{authenticatorAttachment:"platform", userVerification:"required"},
-        timeout:60000,
-        attestation:"none"
-      }
-    });
-    if(credential){
-      localStorage.setItem("pff_bio_enabled","1");
-      localStorage.setItem("pff_bio_user",userName);
-      updateBioStatus();
-  setupActivityListeners();
-      toast("✅ Huella/rostro activado");
-      return true;
-    }
-  }catch(e){
-    console.warn(e);
-    toast("⚠️ No se pudo activar huella/rostro");
-  }
-  return false;
-}
-
-async function biometricLogin(){
-  if(localStorage.getItem("pff_bio_enabled") !== "1"){
-    toast("Primero ingresá con PIN y activá huella/rostro desde Configuración");
-    return false;
-  }
-  if(!isBiometricSupported()){
-    toast("⚠️ Este navegador no soporta huella/rostro web");
-    return false;
-  }
-  try{
-    await navigator.credentials.get({
-      publicKey:{challenge: randomChallenge(), userVerification:"required", timeout:60000}
-    });
-    currentUser = localStorage.getItem("pff_bio_user") || localStorage.getItem("pff_user") || "Matías";
-    localStorage.setItem("pff_logged","1");
-    localStorage.setItem("pff_user",currentUser);
-    updateSessionUI();
-    showView("dashboard");
-    startInactivityWatch();
-    toast("✅ Acceso biométrico correcto");
-    loadSupabaseBase();
-    return true;
-  }catch(e){
-    console.warn(e);
-    toast("⚠️ No hay llave registrada. Ingresá con PIN.");
-    return false;
-  }
-}
-
-async function requireBiometricForSensitiveAction(actionName){
-  if(localStorage.getItem("pff_bio_enabled") !== "1" || !isBiometricSupported()){
-    return true;
-  }
-  try{
-    await navigator.credentials.get({
-      publicKey:{challenge: randomChallenge(), userVerification:"required", timeout:60000}
-    });
-    return true;
-  }catch(e){
-    toast("⚠️ Acción cancelada: " + actionName);
-    return false;
-  }
+    localStorage.removeItem("pff_logged");
+    localStorage.removeItem("pff_last_view");
+    localStorage.removeItem("pff_bio_enabled");
+  }catch(e){}
+  clearTimeout(inactivityTimer);
+  showView("login");
+  toast("Sesión local reiniciada");
 }
 
 
@@ -1675,6 +1672,7 @@ document.addEventListener("DOMContentLoaded", function(){
     startInactivityWatch();
     loadSupabaseBase();
   }else{
+    clearTimeout(inactivityTimer);
     showView("login");
   }
 });
