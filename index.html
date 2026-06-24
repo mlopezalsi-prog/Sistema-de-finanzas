@@ -177,6 +177,29 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
 }
 @media (min-width: 1280px){body{padding-left:270px!important;padding-right:350px!important}.desktop-sidebar{width:232px!important}.desktop-right-panel{width:312px!important}.grid{gap:16px}.card{margin:14px}}
 
+
+
+/* GLAM - Deudas arriba + Proyección financiera */
+.debt-top-search-card{position:relative;z-index:3;background:linear-gradient(135deg,rgba(15,23,42,.98),rgba(30,41,59,.94));border:1px solid rgba(56,189,248,.20)}
+.debt-search-row{display:grid;grid-template-columns:1.4fr .75fr;gap:10px;margin-top:12px}
+.debt-filter-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.debt-chip{background:#0f172a!important;border:1px solid rgba(255,255,255,.10);box-shadow:none!important;border-radius:999px;padding:10px 13px;font-size:13px}
+.debt-chip.active{background:linear-gradient(135deg,#38bdf8,#2563eb)!important;border-color:rgba(56,189,248,.45)}
+.debt-modern-grid{display:grid;grid-template-columns:1fr;gap:2px}.debt-modern-list{display:grid;grid-template-columns:1fr;gap:10px}.debt-modern-card{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:15px;cursor:pointer}.debt-modern-card:hover{border-color:rgba(56,189,248,.38)}.debt-modern-top{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}.debt-modern-title{font-size:17px;font-weight:1000;line-height:1.2}.debt-modern-meta{font-size:13px;color:#cbd5e1;margin-top:5px;line-height:1.35}.debt-modern-amount{text-align:right;font-size:18px;font-weight:1000;white-space:nowrap}.debt-modern-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.debt-modern-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.debt-modern-actions button{padding:12px;border-radius:15px;font-size:13px}.debt-modern-progress{height:9px;background:#334155;border-radius:20px;overflow:hidden;margin-top:11px}.debt-modern-progress div{height:100%;border-radius:20px;background:linear-gradient(90deg,#38bdf8,#22c55e)}.debt-modern-empty{background:#0f172a;border:1px dashed rgba(255,255,255,.18);border-radius:22px;padding:18px;text-align:center;color:#cbd5e1}.debt-modern-side-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.debt-modern-kpi{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:12px;text-align:center}.debt-modern-kpi span{display:block;color:#cbd5e1;font-size:11px;font-weight:900;text-transform:uppercase}.debt-modern-kpi b{display:block;font-size:22px;margin-top:5px}
+.proj-hero{background:linear-gradient(135deg,#0369a1,#0f172a 58%,#064e3b);border:1px solid rgba(56,189,248,.25)}.projection-total{font-size:42px;font-weight:1000;letter-spacing:-1px;margin-top:4px}.projection-month-strip{display:flex;gap:8px;overflow:auto;padding:2px 0 4px;margin-top:12px}.projection-month-btn{min-width:132px;background:#0f172a!important;border:1px solid rgba(255,255,255,.10);box-shadow:none!important;border-radius:18px;padding:12px;text-align:left}.projection-month-btn.active{border-color:#38bdf8;background:rgba(56,189,248,.16)!important}.projection-month-btn b{display:block}.projection-month-btn span{display:block;color:#cbd5e1;font-size:12px;margin-top:4px}.projection-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.projection-box{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:13px}.projection-box span{display:block;color:#cbd5e1;font-size:11px;font-weight:900;text-transform:uppercase}.projection-box b{display:block;font-size:20px;margin-top:6px}.projection-bars{display:grid;gap:10px;margin-top:12px}.projection-bar-row{display:grid;grid-template-columns:96px 1fr 96px;gap:9px;align-items:center}.projection-bar-track{height:14px;background:#334155;border-radius:999px;overflow:hidden}.projection-bar-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#22c55e);border-radius:999px}.projection-detail-item{background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:17px;padding:12px;margin-top:10px}.projection-detail-top{display:flex;justify-content:space-between;gap:10px}.projection-detail-top b{font-size:14px}.projection-status{display:inline-flex;border-radius:999px;padding:7px 10px;font-weight:900;font-size:12px;margin-top:8px}.proj-ok{background:rgba(34,197,94,.16);color:#bbf7d0}.proj-warn{background:rgba(250,204,21,.16);color:#fde68a}.proj-risk{background:rgba(251,113,133,.16);color:#fecdd3}
+@media(min-width:960px){#debtGroups.debt-modern-grid{grid-template-columns:1.35fr .65fr}.debt-modern-list{grid-template-columns:1fr 1fr}#proyeccion.active{display:grid;grid-template-columns:1.15fr .85fr;gap:2px;align-items:start}#proyeccion .header,#proyeccion .proj-hero,#proyeccion .projection-wide{grid-column:1/-1}}
+@media(max-width:640px){.debt-search-row,.debt-modern-side-grid,.projection-grid{grid-template-columns:1fr}.debt-modern-top{grid-template-columns:1fr}.debt-modern-amount{text-align:left}.debt-modern-actions{grid-template-columns:1fr}.projection-bar-row{grid-template-columns:78px 1fr}.projection-bar-row b{grid-column:1/-1}.projection-total{font-size:34px}}
+
+
+/* GLAM ajuste deudas simple */
+#debtGroups.debt-simple-list{display:block!important;grid-template-columns:1fr!important}
+#debtGroups.debt-simple-list .debt-modern-card{margin-top:10px}
+#debtGroups.debt-simple-list .debt-modern-list{display:block!important}
+#deudas .debt-top-search-card{position:sticky;top:10px;z-index:8}
+@media(min-width:960px){body.desktop-app #deudas.active{display:block!important;max-width:980px;margin:0 auto;padding:18px 0 34px}#deudas .debt-top-search-card{top:18px}}
+.reset-danger-card{border:1px solid rgba(251,113,133,.35)!important;background:rgba(251,113,133,.08)!important}
+.reset-danger-card h3{color:#fecdd3}
+
 </style>
 </head>
 <body>
@@ -186,6 +209,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
   <div class="desktop-nav" id="desktopNav">
     <button data-view="dashboard" onclick="go('dashboard')"><i>🏠</i>Inicio</button>
     <button data-view="deudas" onclick="go('deudas')"><i>💳</i>Deudas</button>
+    <button data-view="proyeccion" onclick="go('proyeccion')"><i>📈</i>Proyección</button>
     <button data-view="ingresos" onclick="go('ingresos')"><i>💵</i>Ingresos</button>
     <button data-view="gastos" onclick="go('gastos')"><i>💸</i>Gastos</button>
     <button data-view="agenda" onclick="go('agenda')"><i>📅</i>Agenda</button>
@@ -203,7 +227,7 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
   <div class="desktop-side-card"><div class="row"><div>Ingresos</div><b id="deskIngresos">$0</b></div><div class="row"><div>Gastos</div><b id="deskGastos">$0</b></div><div class="row"><div>Pagos deuda</div><b id="deskPagos">$0</b></div><div class="row"><div>Compromisos</div><b id="deskCompromisos">$0</b></div></div>
   <div class="desktop-side-card"><div class="small">Salud financiera</div><b id="deskHealthText">Sin datos</b><br><span class="desktop-health" id="deskHealthBadge">GLAM</span></div>
   <div class="desktop-side-card"><div class="desktop-panel-title">🚨 Próximos / pendientes</div><div id="deskAlerts"><div class="event">Sin alertas.</div></div><button class="desktop-mini-btn" onclick="go('deudas')">Revisar deudas</button></div>
-  <div class="desktop-side-card"><div class="desktop-panel-title">⚡ Accesos</div><button class="desktop-mini-btn" onclick="go('usuarios')">👥 Usuarios</button><button class="desktop-mini-btn" onclick="openExecutiveFinancePdf()">📄 PDF ejecutivo</button><button class="desktop-mini-btn" onclick="go('cierre')">📦 Cierre de mes</button></div>
+  <div class="desktop-side-card"><div class="desktop-panel-title">⚡ Accesos</div><button class="desktop-mini-btn" onclick="go('usuarios')">👥 Usuarios</button><button class="desktop-mini-btn" onclick="go('proyeccion')">📈 Proyección</button><button class="desktop-mini-btn" onclick="openExecutiveFinancePdf()">📄 PDF ejecutivo</button><button class="desktop-mini-btn" onclick="go('cierre')">📦 Cierre de mes</button></div>
 </aside>
 
 
@@ -230,10 +254,18 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
 </section>
 
 <section id="deudas" class="view">
- <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>💳 Deudas</h2><div class="small">Agrupadas por tipo</div></div><div class="badge" id="debtActiveBadge">0 activas</div></div>
- <div class="card hero-red"><h3>Compromisos activos</h3><h1 id="debtTotalHero">$0</h1><div class="small" style="color:#ffe4e6" id="debtHeroSub">Datos desde Supabase</div></div>
- <div class="actions"><button class="main-btn" onclick="go('nuevaDeuda')">➕ Nueva deuda</button><button onclick="go('config')">⚙️ Alertas</button></div>
- <div id="monthlyDebtStatus"></div><div id="debtGroups"></div>
+ <div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>💳 Deudas</h2><div class="small">Listado simple de menor a mayor</div></div><div class="badge" id="debtActiveBadge">0 activas</div></div>
+ <div class="card debt-top-search-card"><h3>🔍 Buscar deuda</h3><input id="debtModernSearch" placeholder="Buscar por nombre, tipo, monto, prioridad o vencimiento..." oninput="renderDebtGroups()"></div>
+ <div id="debtGroups"></div>
+</section>
+
+<section id="proyeccion" class="view">
+ <div class="header"><button class="back" onclick="go('deudas')">←</button><div><h2>📈 Proyección</h2><div class="small">Mes actual, arrastres y próximos meses</div></div><div class="badge" id="projectionBadge">6 meses</div></div>
+ <div class="card proj-hero"><h3 id="projectionHeroMonth">Mes en curso</h3><div class="small" style="color:#e0f2fe">Total comprometido del mes</div><div class="projection-total" id="projectionTotalMonth">$0</div><span class="projection-status proj-ok" id="projectionHealth">🟢 Sin datos</span></div>
+ <div class="card projection-wide"><h3>📊 Resumen del mes</h3><div class="projection-grid"><div class="projection-box"><span>Cuotas del mes</span><b id="projectionCuotas">$0</b></div><div class="projection-box"><span>Gastos fijos</span><b id="projectionFijos">$0</b></div><div class="projection-box"><span>Arrastre vencido</span><b id="projectionArrastre">$0</b></div><div class="projection-box"><span>Disponible proyectado</span><b id="projectionDisponible">$0</b></div></div><div class="small" id="projectionIncomeNote" style="margin-top:10px">Ingresos estimados: $0</div></div>
+ <div class="card projection-wide"><h3>🗓️ Próximos 6 meses</h3><div class="projection-month-strip" id="projectionMonthStrip"></div><div class="projection-bars" id="projectionBars"></div></div>
+ <div class="card"><h3>🚨 Arrastres / vencidas</h3><div id="projectionArrearsList"><div class="event">Sin arrastres.</div></div></div>
+ <div class="card"><h3>💳 Detalle del mes seleccionado</h3><div id="projectionDetailList"><div class="event">Sin compromisos para este mes.</div></div></div>
 </section>
 
 <section id="detalleDeuda" class="view">
@@ -250,12 +282,12 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
 <section id="editarDeuda" class="view">
  <div class="header">
   <button class="back" onclick="go('detalleDeuda')">←</button>
-  <div><h2>✏️ Editar deuda</h2><div class="small" id="editDebtSub">Deuda seleccionada</div></div>
+  <div><h2>✏️ Editar deuda</h2><div class="small" id="editDebtSub">Excepcional · Cuotas · Fija</div></div>
   <div class="badge">Edición</div>
  </div>
  <div class="card">
   <div class="inputbox"><label>Nombre / acreedor</label><input id="editDebtTitle" placeholder="Nombre de deuda"></div>
-  <div class="inputbox"><label>Tipo de deuda</label><select id="editDebtType" onchange="editDebtTypeChange()"><option>Plan de cuotas</option><option>Tarjeta / saldo variable</option><option>Préstamo</option><option>Deuda personal</option><option>Servicio financiado</option><option>Compra financiada</option><option>Deuda fija mensual</option><option>Otro</option></select></div>
+  <div class="inputbox"><label>Tipo de deuda</label><select id="editDebtType" onchange="editDebtTypeChange()"><option>Excepcional</option><option>Cuotas</option><option>Fija</option></select></div>
   <div class="inputbox" id="editDebtInstallmentsBox"><label>Cantidad total de cuotas</label><input id="editDebtInstallments" type="number" min="1" step="1" placeholder="Ej: 12"></div>
   <div class="inputbox"><label>Importe cuota / saldo</label><input id="editDebtAmount" placeholder="$"></div>
   <div class="inputbox"><label id="editDebtDueLabel">Fecha de adjudicación / fecha base</label><input id="editDebtDue" type="date" value=""></div>
@@ -266,11 +298,11 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
 </section>
 
 <section id="nuevaDeuda" class="view">
- <div class="header"><button class="back" onclick="go('deudas')">←</button><div><h2>➕ Nueva deuda</h2><div class="small">Elegir tipo obligatorio</div></div></div>
+ <div class="header"><button class="back" onclick="go('deudas')">←</button><div><h2>➕ Nueva deuda</h2><div class="small">Excepcional · Cuotas · Fija</div></div></div>
  <div class="card">
   <div class="inputbox"><label>Nombre / acreedor</label><input id="newDebtName" placeholder="Ej: Naranja, Banco, Dani..."></div>
   <div class="inputbox" id="boxDeudaFija" style="display:none"><label>Deuda fija rápida</label><select id="fixedDebtSelect" onchange="applyFixedDebtTemplate()"><option value="">Elegir...</option><option>Wifi</option><option>Abono celular</option><option>Club</option><option>Seguro</option><option>Alquiler</option><option>Cuota colegio</option><option>Servicio de streaming</option><option>Otro servicio fijo</option></select></div>
-  <div class="inputbox"><label>Tipo de deuda</label><select id="newDebtCategory" onchange="tipoDeudaChange()"><option>Plan de cuotas</option><option>Tarjeta / saldo variable</option><option>Préstamo</option><option>Deuda personal</option><option>Servicio financiado</option><option>Compra financiada</option><option>Otro</option></select></div>
+  <div class="inputbox"><label>Tipo de deuda</label><select id="newDebtCategory" onchange="tipoDeudaChange()"><option>Excepcional</option><option>Cuotas</option><option>Fija</option></select></div>
   <div class="inputbox"><label>Importe cuota / saldo</label><input id="newDebtAmount" placeholder="$"></div>
   <div class="inputbox" id="boxCuotas"><label>Cantidad de cuotas</label><input id="newDebtInstallments" placeholder="Ej: 24"></div>
   <div class="inputbox"><label id="newDebtDueLabel">Fecha de adjudicación / fecha base</label><input id="newDebtDue" type="date" value=""></div>
@@ -354,10 +386,10 @@ input,select,textarea{width:100%;background:#0f172a;border:1px solid #334155;bor
  <div class="header"><button class="back" onclick="go('mas')">←</button><div><h2>⚙️ Configuración</h2><div class="small">Criterios, listas y alertas</div></div></div>
  <div class="card"><h3>🔔 Criterios de alertas</h3><div class="row"><div>Primera alerta</div><select style="max-width:130px"><option>15 días</option><option>10 días</option><option>7 días</option></select></div><div class="row"><div>Segunda alerta</div><select style="max-width:130px"><option>7 días</option><option>5 días</option><option>3 días</option></select></div><div class="row"><div>Última alerta</div><select style="max-width:130px"><option>1 día</option><option>Hoy</option></select></div><button class="main-btn" style="margin-top:12px" onclick="toast('🔔 Criterios de alerta guardados')">Guardar criterios</button></div>
  <div class="card"><h3>☕ Opciones de micro gastos</h3><div id="microOptionsList"></div><div class="inputbox"><label>Nueva opción / edición</label><input id="microOptionInput" placeholder="Ej: Peaje, Supermercado, Taxi..."></div><div class="actions"><button class="main-btn" onclick="addMicroOption()">➕ Agregar</button><button onclick="clearMicroInput()">Limpiar</button></div></div>
- <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Preparada</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
+ <div class="card"><h3>☁️ Supabase</h3><button class="main-btn" onclick="testSupabaseConnection()">Probar conexión</button><p class="small">Guarda un movimiento de prueba y confirma conexión.</p><div class="event" id="supabaseDebug">Esperando prueba...</div></div><div class="card reset-danger-card"><h3>🧹 Reiniciar datos</h3><p class="small">Borra deudas, pagos, movimientos, comprobantes y cierres para empezar de cero con el nuevo criterio.</p><button class="danger" style="width:100%;margin-top:8px" onclick="resetAllGlamData()">Borrar todo y empezar de nuevo</button></div><div class="card"><h3>🔐 Seguridad</h3><div class="row"><div>Huella / rostro</div><b id="bioStatus">Preparada</b></div><div class="actions"><button class="main-btn" onclick="registerBiometric()">Activar huella / rostro</button><button onclick="biometricLogin()">Probar huella</button></div><div class="row"><div>PIN respaldo</div><b>Activo</b></div><div class="row"><div>Cierre por inactividad</div><b id="sessionTimeoutStatus">5 min</b></div><button class="danger" style="width:100%;margin-top:12px" onclick="logoutApp()">Cerrar sesión</button><p class="small">Funciona online con HTTPS. Usa la seguridad nativa del teléfono.</p></div>
 </section>
 
-<section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">Online</div></div><div class="card" id="sessionCard"><h3>👤 Sesión</h3><div class="row"><div>Usuario actual</div><b id="currentSessionUser">-</b></div><div class="actions"><button onclick="switchUser()">🔄 Cambiar usuario</button><button class="danger" onclick="logoutApp()">🚪 Cerrar sesión</button></div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('finanzasAvanzadas')"><span>🏦</span>Informes Pro</div><div class="tile" onclick="go('usuarios')"><span>👥</span>Usuarios</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
+<section id="mas" class="view"><div class="header"><div><h2>☰ Más</h2><div class="small">Herramientas</div></div><div class="badge">Online</div></div><div class="card" id="sessionCard"><h3>👤 Sesión</h3><div class="row"><div>Usuario actual</div><b id="currentSessionUser">-</b></div><div class="actions"><button onclick="switchUser()">🔄 Cambiar usuario</button><button class="danger" onclick="logoutApp()">🚪 Cerrar sesión</button></div></div><div class="grid"><div class="tile" onclick="go('ingresos')"><span>💵</span>Ingresos</div><div class="tile" onclick="go('gastos')"><span>💸</span>Gastos</div><div class="tile" onclick="go('registro')"><span>📒</span>Registro</div><div class="tile" onclick="go('finanzasAvanzadas')"><span>🏦</span>Informes Pro</div><div class="tile" onclick="go('proyeccion')"><span>📈</span>Proyección</div><div class="tile" onclick="go('usuarios')"><span>👥</span>Usuarios</div><div class="tile" onclick="go('logros')"><span>🏆</span>Logros</div><div class="tile" onclick="go('comprobantes')"><span>📄</span>Comprobantes</div><div class="tile" onclick="go('config')"><span>⚙️</span>Config</div></div></section>
 <section id="nuevo" class="view"><div class="header"><button class="back" onclick="go('dashboard')">←</button><div><h2>➕ Nuevo movimiento</h2><div class="small">Carga rápida</div></div><div class="badge">Acciones</div></div><div class="grid"><div class="tile" onclick="go('nuevaDeuda')"><span>💳</span>Nueva deuda</div><div class="tile" onclick="openMoneyForm('income','Depósito de sueldo','Quincena / sueldo depositado','Ingreso')"><span>💼</span>Depósito sueldo</div><div class="tile" onclick="openMoneyForm('expense','Pago de deuda','Pago de cuota o deuda','Deuda')"><span>✅</span>Pagar deuda</div><div class="tile" onclick="openMoneyForm('income','Dinero extra','Ingreso no laboral','Ingreso')"><span>💸</span>Dinero extra</div><div class="tile" onclick="openMoneyForm('expense','Micro gasto','Carga rápida, sin PDF','Gasto')"><span>☕</span>Micro gasto</div><div class="tile" onclick="openMoneyForm('income','Ingreso Amanda','Dinero aportado + referencia','Ingreso')"><span>👩</span>Ingreso Amanda</div><div class="tile" onclick="openMoneyForm('expense','Imprevisto','Gasto fuera de planificación','Gasto')"><span>🚨</span>Imprevisto</div></div></section>
 
 <section id="finanzasAvanzadas" class="view">
@@ -890,6 +922,65 @@ async function sbSelect(table, query){
   return data || [];
 }
 
+async function sbDeleteAll(table){
+  var url = SUPABASE_URL + "/rest/v1/" + table + "?id=not.is.null";
+  var opts = {
+    method: "DELETE",
+    mode: "cors",
+    headers: {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+      "Content-Type": "application/json",
+      "Prefer": "return=minimal"
+    }
+  };
+  try{
+    setDebug("Borrando " + table + "...");
+    var res = await fetch(url, opts);
+    var txt = await res.text();
+    if(!res.ok){
+      setDebug("No se pudo borrar " + table + ": " + txt);
+      return false;
+    }
+    return true;
+  }catch(e){
+    setDebug("Error borrando " + table + ": " + e.message);
+    return false;
+  }
+}
+
+async function resetAllGlamData(){
+  var first = confirm("Esta acción borra deudas, pagos, movimientos, comprobantes y cierres cargados. ¿Querés continuar?");
+  if(!first) return;
+  var code = prompt("Para confirmar escribí BORRAR TODO");
+  if(String(code || "").trim().toUpperCase() !== "BORRAR TODO"){
+    toast("Operación cancelada");
+    return;
+  }
+  showAppLoading("Reiniciando datos", "Borrando registros para empezar de cero...");
+  var tables = ["pagos_deuda", "movimientos", "comprobantes", "cierres_mensuales", "deudas"];
+  var ok = true;
+  for(var i=0;i<tables.length;i++){
+    var done = await sbDeleteAll(tables[i]);
+    if(!done) ok = false;
+  }
+  debts = [];
+  movements = [];
+  comprobantes = [];
+  pagosDeuda = [];
+  cierresMensuales = [];
+  renderDebtGroups();
+  renderMovements("todos");
+  renderComprobantes();
+  renderBalanceHistory();
+  updateDashboardFromData();
+  updateDailySummary();
+  updateIncomeExpenseBadges();
+  renderCalendar();
+  hideAppLoading(300);
+  toast(ok ? "✅ Datos reiniciados" : "⚠️ Reinicio parcial: revisá permisos de Supabase");
+}
+
 function movementDetailParsed(description){
   var raw = String(description || "");
   var marker = "Detalle:";
@@ -944,11 +1035,11 @@ function tipoDeudaChange(){
   var cuotas = document.getElementById("boxCuotas");
   var fija = document.getElementById("boxDeudaFija");
   var lab = document.getElementById("newDebtDueLabel");
-  var isFixed = cat && cat.value === "Deuda fija mensual";
-  var isInstall = cat && cat.value !== "Deuda fija mensual" && cat.value !== "Tarjeta / saldo variable" && cat.value !== "Otro";
+  var isFixed = cat && (cat.value === "Fija" || cat.value === "Deuda fija mensual");
+  var isInstall = cat && cat.value === "Cuotas";
   if(fija) fija.style.display = isFixed ? "block" : "none";
-  if(cuotas) cuotas.style.display = isFixed ? "none" : "block";
-  if(lab) lab.textContent = isInstall ? "Fecha de adjudicación" : "Fecha base / vencimiento";
+  if(cuotas) cuotas.style.display = isInstall ? "block" : "none";
+  if(lab) lab.textContent = isInstall ? "Fecha de primera cuota" : "Fecha de vencimiento";
   if(isFixed){
     var inst = document.getElementById("newDebtInstallments");
     if(inst) inst.value = "";
@@ -956,7 +1047,9 @@ function tipoDeudaChange(){
 }
 
 function normalizeDebtCategoryForGroup(category){
-  if(category === "Deuda fija mensual") return "📌 Deudas fijas mensuales";
+  if(category === "Fija" || category === "Deuda fija mensual") return "📌 Deudas fijas";
+  if(category === "Cuotas" || category === "Plan de cuotas" || category === "Compra financiada") return "📆 Cuotas";
+  if(category === "Excepcional") return "⚡ Excepcionales";
   return groupFromCategory(category);
 }
 
@@ -991,12 +1084,12 @@ async function updateDebtAfterPayment(debt){
 
 function isInstallmentDebt(debt){
   if(!debt) return false;
-  return Number(debt.cuotas_totales || 0) > 0 && debt.type !== "Deuda fija mensual";
+  return Number(debt.cuotas_totales || 0) > 0 && debt.type !== "Fija" && debt.type !== "Deuda fija mensual";
 }
 
 function isMonthlyFixedDebt(debt){
   if(!debt) return false;
-  return debt.type === "Deuda fija mensual" || String(debt.type || "").toLowerCase().indexOf("fija mensual") >= 0;
+  return debt.type === "Fija" || debt.type === "Deuda fija mensual" || String(debt.type || "").toLowerCase().indexOf("fija") >= 0;
 }
 
 function parsePaymentChoiceFromText(text){
@@ -1971,7 +2064,7 @@ async function loadSupabaseBase(){
         type: d.categoria,
         badge: d.prioridad || "Normal",
         amount: formatARS(Number(d.importe || 0)),
-        label: d.categoria === "Plan de cuotas" ? "Cuota mensual" : "Saldo actual",
+        label: (d.categoria === "Cuotas" || d.categoria === "Plan de cuotas") ? "Cuota mensual" : "Importe",
         subtitle: d.cuotas_totales ? (d.cuotas_totales + " cuotas · " + (d.cuotas_pagadas || 0) + " pagadas") : (d.observaciones || d.categoria),
         due: d.vencimiento ? formatDateShort(d.vencimiento) : "--",
         due_full: d.vencimiento || null,
@@ -2043,10 +2136,9 @@ async function loadSupabaseBase(){
 }
 
 function groupFromCategory(c){
-  if(c === "Plan de cuotas" || c === "Compra financiada") return "📆 Planes de cuotas";
-  if(c === "Tarjeta / saldo variable") return "💳 Tarjetas / saldos";
-  if(c === "Préstamo") return "🏦 Préstamos";
-  if(c === "Deuda personal") return "👥 Deudas personales";
+  if(c === "Cuotas" || c === "Plan de cuotas" || c === "Compra financiada") return "📆 Cuotas";
+  if(c === "Fija" || c === "Deuda fija mensual") return "📌 Fijas";
+  if(c === "Excepcional") return "⚡ Excepcionales";
   return "📌 Otras deudas";
 }
 function formatDateShort(dateStr){
@@ -2150,6 +2242,7 @@ function showView(id){
   }
   if(id==="mas" || id==="dashboard"){ try{ updateSessionUI(); }catch(e){} }
   if(id==="finanzasAvanzadas"){ try{ renderFinanzasAvanzadas(); }catch(e){ console.warn(e); } }
+  if(id==="proyeccion"){ try{ renderProjectionView(); }catch(e){ console.warn(e); } }
   if(id==="usuarios"){ try{ renderUsuarios(); }catch(e){ console.warn(e); } }
   if(id==="detalleUsuario"){ try{ renderUserDetail(currentUserReportName || currentUser || "Matías"); }catch(e){ console.warn(e); } }
   try{ updateDesktopChrome(id); }catch(e){}
@@ -2422,45 +2515,77 @@ function statusClass(badge){
 }
 
 
+function debtModernSetFilter(value){
+  window.debtModernFilter = value || "all";
+  var sel = document.getElementById("debtModernSelect");
+  if(sel) sel.value = window.debtModernFilter;
+  renderDebtGroups();
+}
+function debtModernStatusInfo(d){
+  return debtPanelEvaluation(d);
+}
+function debtModernStatusLabel(info){
+  if(!info) return '<span class="compact-pill pill-pending">Pendiente</span>';
+  if(info.kind === "missing") return '<span class="compact-pill pill-missing">Faltan datos</span>';
+  if(info.kind === "late") return '<span class="compact-pill pill-late">Atrasada</span>';
+  if(info.kind === "paid" || info.kind === "ok" || info.kind === "cancelled") return '<span class="compact-pill pill-paid">Al día</span>';
+  return '<span class="compact-pill pill-pending">Pendiente</span>';
+}
+function debtModernCard(d){
+  var info = debtModernStatusInfo(d);
+  var amount = d.amount || formatARS(0);
+  var meta = (d.type || "Deuda") + " · " + (d.due || "Sin fecha") + " · " + (d.badge || d.priority || "Normal");
+  var pct = 0;
+  if(isInstallmentDebt(d)){
+    var ci = compactInstallmentInfo(d);
+    pct = ci.pct || 0;
+    if(info.kind === "missing") meta = "Falta fecha base · " + ci.total + " cuotas";
+    else if(info.kind === "late" || info.kind === "pending") meta = "Debe cuota " + (info.cuota || "-") + "/" + (info.total || ci.total) + " · vence " + formatDateShortFromDate(info.due);
+    else meta = "Cuotas " + ci.paid + "/" + ci.total + " · Al día";
+  }else if(isMonthlyFixedDebt(d)){
+    meta = (info.kind === "paid" ? "Pagado " : "Pendiente ") + getCurrentPeriodLabel() + " · vence " + (d.due || "--");
+  }
+  return '<div class="debt-modern-card" onclick="openDebt(&quot;' + d.key + '&quot;)">' +
+    '<div class="debt-modern-top"><div><div class="debt-modern-title">' + (d.title || "Deuda") + '</div><div class="debt-modern-meta">' + meta + '</div></div><div class="debt-modern-amount">' + amount + '</div></div>' +
+    '<div class="debt-modern-tags">' + debtModernStatusLabel(info) + '<span class="compact-pill pill-finance">' + (d.priority || d.badge || "Normal") + '</span></div>' +
+    (isInstallmentDebt(d) ? '<div class="debt-modern-progress"><div style="width:' + pct + '%"></div></div>' : '') +
+    '<div class="debt-modern-actions"><button onclick="event.stopPropagation();openDebt(&quot;' + d.key + '&quot;)">👁️ Ver detalle</button><button class="main-btn" onclick="event.stopPropagation();payDebtByKey(&quot;' + d.key + '&quot;)">💰 Pagar</button></div>' +
+  '</div>';
+}
+
 function renderDebtGroups(){
   var root = document.getElementById("debtGroups");
   if (!root) return;
+  root.className = "debt-simple-list";
   root.innerHTML = "";
 
+  var chips = document.getElementById("debtFilterChips");
+  if(chips) chips.innerHTML = "";
+
   if(!debts || !debts.length){
-    root.innerHTML = '<div class="card"><h3>Sin deudas cargadas</h3><p class="small">Esta vista toma los datos únicamente desde Supabase.</p></div>';
+    root.innerHTML = '<div class="card"><h3>Sin deudas cargadas</h3><p class="small">Cargá las deudas nuevamente para que la proyección use un solo criterio.</p><button class="main-btn" style="margin-top:12px" onclick="go(\'nuevaDeuda\')">➕ Nueva deuda</button></div>';
     return;
   }
 
-  var htmlOut = '<div class="card"><h3>📋 Todas las deudas</h3><div class="section-note">Listado compacto. El detalle, auditoría, pagos y comprobantes están dentro de cada deuda.</div>';
-  var showAll = !!window.debtCompactShowAll;
-  var list = compactSortByDue(debts).slice();
-  var visible = showAll ? list : list.slice(0,8);
-  visible.forEach(function(d){
-    var ev = debtPanelEvaluation(d);
-    var badge = (ev.kind === "paid" || ev.kind === "ok" || ev.kind === "cancelled") ? '<span class="compact-pill pill-paid">Al día</span>' : (ev.kind === "missing" ? '<span class="compact-pill pill-missing">Faltan datos</span>' : (ev.kind === "late" ? '<span class="compact-pill pill-late">Atrasada</span>' : '<span class="compact-pill pill-pending">Pendiente</span>'));
-    var meta = d.due + ' · ' + d.type;
-    if(isInstallmentDebt(d)){
-      var i = compactInstallmentInfo(d);
-      if(ev.kind === "missing") meta = 'Falta fecha de adjudicación · ' + i.total + ' cuotas';
-      else if(ev.kind === "late" || ev.kind === "pending") meta = 'Debe cuota ' + ev.cuota + '/' + ev.total + ' · vence ' + formatDateShortFromDate(ev.due);
-      else meta = 'Cuotas ' + i.paid + '/' + i.total + ' · Al día';
-    }
-    if(isMonthlyFixedDebt(d)){
-      meta = (ev.kind === "paid" ? ('Pagado ' + getCurrentPeriodLabel()) : ('Pendiente ' + getCurrentPeriodLabel())) + ' · Vence ' + d.due;
-    }
-    htmlOut += compactDebtRow(d, badge, meta, '');
-  });
-  if(list.length > 8){ htmlOut += '<button class="compact-link" onclick="event.stopPropagation();window.debtCompactShowAll=!window.debtCompactShowAll;renderDebtGroups()">' + (showAll ? 'Ver menos' : 'Ver todas las deudas (' + list.length + ')') + '</button>'; }
-  htmlOut += '</div>';
+  var qEl = document.getElementById("debtModernSearch");
+  var search = qEl ? String(qEl.value || "").toLowerCase().trim() : "";
 
-  htmlOut += '<div class="card"><h3>📚 Historial y auditoría</h3>' +
-    '<div class="row"><div>Comprobantes</div><b>' + (comprobantes ? comprobantes.length : 0) + '</b></div>' +
-    '<div class="row"><div>Pagos registrados</div><b>' + (pagosDeuda ? pagosDeuda.length : 0) + '</b></div>' +
-    '<div class="row"><div>Movimientos auditables</div><b>' + (movements ? cleanMovementsList(movements).length : 0) + '</b></div>' +
-    '<button class="compact-link" onclick="go(\'comprobantes\')">📄 Abrir comprobantes</button></div>';
-  root.innerHTML = htmlOut;
+  var list = debts.slice().sort(function(a,b){
+    var am = parseMoneyInput(a.amount || a.monto || a.importe || "0");
+    var bm = parseMoneyInput(b.amount || b.monto || b.importe || "0");
+    if(am !== bm) return am - bm;
+    return String(a.title || "").localeCompare(String(b.title || ""));
+  }).filter(function(d){
+    var info = debtModernStatusInfo(d);
+    var text = String((d.title || "") + " " + (d.type || "") + " " + (d.badge || "") + " " + (d.priority || "") + " " + (d.amount || "") + " " + (d.due || "") + " " + (info.kind || "")).toLowerCase();
+    return !search || text.indexOf(search) >= 0;
+  });
+
+  root.innerHTML = list.length
+    ? list.map(debtModernCard).join("")
+    : '<div class="card"><h3>Sin resultados</h3><p class="small">No hay deudas que coincidan con la búsqueda.</p></div>';
 }
+
 
 
 function debtFinancialResume(debt){
@@ -2607,7 +2732,7 @@ function updatePaymentPreview(){
 
 
 function debtTypeNeedsInstallments(type){
-  return ["Plan de cuotas", "Préstamo", "Servicio financiado", "Compra financiada"].indexOf(type) >= 0;
+  return ["Cuotas", "Plan de cuotas", "Préstamo", "Servicio financiado", "Compra financiada"].indexOf(type) >= 0;
 }
 
 function getDebtInstallmentsTotal(debt){
@@ -2628,7 +2753,7 @@ function editDebtTypeChange(){
     if(!needs) input.value = "";
   }
 
-  var lab=document.getElementById("editDebtDueLabel"); if(lab){ var t=document.getElementById("editDebtType"); var v=t?t.value:""; lab.textContent = (v && v!=="Deuda fija mensual" && v!=="Tarjeta / saldo variable" && v!=="Otro") ? "Fecha de adjudicación" : "Fecha base / vencimiento"; }
+  var lab=document.getElementById("editDebtDueLabel"); if(lab){ var t=document.getElementById("editDebtType"); var v=t?t.value:""; lab.textContent = ((v==="Cuotas") || (v==="Plan de cuotas") || (v==="Compra financiada")) ? "Fecha de primera cuota" : "Fecha de vencimiento"; }
 }
 
 function openEditDebt(){
@@ -2673,7 +2798,7 @@ function saveDebtEdit(){
   }else{
     d.progressText = "Sin cuotas configuradas";
     d.progress = "0%";
-    d.label = d.type === "Tarjeta / saldo variable" ? "Saldo actual" : "Saldo / cuota";
+    d.label = (d.type === "Cuotas" || d.type === "Plan de cuotas") ? "Saldo / cuota" : "Importe";
   }
   renderDebtGroups();
   openDebt(d.key);
@@ -3153,7 +3278,7 @@ function renderAdvancedDebtReports(){
         var meta = financeDebtMeta(d, ev);
         if(ev.kind === "late" || ev.kind === "pending" || ev.kind === "missing") actionItems.push({debt:d, ev:ev, meta:meta});
         var tags = financeDebtStatusTag(ev);
-        if(isInstallmentDebt(d)) tags += '<span class="report-tag tag-info">Plan de cuotas</span>';
+        if(isInstallmentDebt(d)) tags += '<span class="report-tag tag-info">Cuotas</span>';
         else if(isMonthlyFixedDebt(d)) tags += '<span class="report-tag tag-info">Fija mensual</span>';
         else tags += '<span class="report-tag tag-info">Saldo variable</span>';
         return '<div class="report-debt-row"><div class="report-debt-top"><div><div class="report-debt-title">' + d.title + '</div><div class="report-meta">' + meta + '</div></div><div class="report-debt-amount">' + d.amount + '</div></div><div class="report-tags">' + tags + '</div><div class="report-actions-mini"><button onclick="openDebt(&quot;' + d.key + '&quot;)">👁️ Ver deuda</button><button onclick="payDebtByKey(&quot;' + d.key + '&quot;)">💰 Registrar pago</button></div></div>';
@@ -3316,7 +3441,11 @@ function clearMicroInput(){
 function tipoDeudaChange(){
   var t = document.getElementById("newDebtCategory").value;
   var box = document.getElementById("boxCuotas");
-  if (box) box.style.display = (t === "Plan de cuotas" || t === "Compra financiada") ? "block" : "none";
+  if (box) box.style.display = (t === "Cuotas" || t === "Plan de cuotas" || t === "Compra financiada") ? "block" : "none";
+  var fija = document.getElementById("boxDeudaFija");
+  if (fija) fija.style.display = (t === "Fija" || t === "Deuda fija mensual") ? "block" : "none";
+  var lab = document.getElementById("newDebtDueLabel");
+  if (lab) lab.textContent = (t === "Cuotas" || t === "Plan de cuotas" || t === "Compra financiada") ? "Fecha de primera cuota" : "Fecha de vencimiento";
 }
 
 
@@ -3401,7 +3530,7 @@ async function saveNewDebt(){
   var due = document.getElementById("newDebtDue").value || null;
   var priority = document.getElementById("newDebtPriority").value;
 
-  if(category === "Deuda fija mensual"){
+  if(category === "Fija" || category === "Deuda fija mensual"){
     var fixedSel = document.getElementById("fixedDebtSelect");
     if(!name && fixedSel && fixedSel.value) name = fixedSel.value;
     installments = null;
@@ -3418,7 +3547,7 @@ async function saveNewDebt(){
     cuotas_pagadas: 0,
     vencimiento: due,
     prioridad: priority,
-    observaciones: (!due && installments && category !== "Deuda fija mensual") ? "FALTAN DATOS: fecha de adjudicación" : (category === "Deuda fija mensual" ? "Deuda fija mensual" : ""),
+    observaciones: (!due && installments && !(category === "Fija" || category === "Deuda fija mensual")) ? "FALTAN DATOS: fecha de primera cuota" : ((category === "Fija" || category === "Deuda fija mensual") ? "Deuda fija" : ""),
     estado: "ACTIVA"
   });
 
@@ -3638,6 +3767,144 @@ document.addEventListener("visibilitychange", function(){
 
 
 
+
+var projectionMonthOffset = 0;
+function monthStart(date){ return new Date(date.getFullYear(), date.getMonth(), 1); }
+function monthEnd(date){ return new Date(date.getFullYear(), date.getMonth()+1, 0, 23, 59, 59, 999); }
+function sameMonth(a,b){ return a && b && a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth(); }
+function parseMovementDate(m){ return parseDateFlexible(m.fecha || m.creado_en || m.created_at || ""); }
+function previousMonthIncomeEstimate(){
+  var now = new Date();
+  var prev = new Date(now.getFullYear(), now.getMonth()-1, 1);
+  var curr = new Date(now.getFullYear(), now.getMonth(), 1);
+  var prevSum = 0, currSum = 0;
+  cleanMovementsList(movements || []).forEach(function(m){
+    if(!isActiveForBalance(m) || isTestMovement(m)) return;
+    if(String(m.tipo || "").toUpperCase() !== "INGRESO") return;
+    var d = parseMovementDate(m); if(!d) return;
+    var val = Math.abs(Number(m.importe_num || parseMoneyInput(m.amount || "0") || 0));
+    if(sameMonth(d, prev)) prevSum += val;
+    if(sameMonth(d, curr)) currSum += val;
+  });
+  var value = prevSum || currSum || Math.max(0, Number(availableValue || 0));
+  return {value:value, source: prevSum ? ("Ingresos reales de " + monthLabelFromDate(prev)) : (currSum ? "Sin ingresos del mes anterior: se usa el mes actual" : "Sin ingresos previos: estimación con disponible actual")};
+}
+function installmentProjectedItemsForMonth(debt, targetMonth){
+  var items = [];
+  var total = Number(debt.cuotas_totales || 0);
+  var paid = getPaidInstallmentNumbers(debt);
+  var amount = parseMoneyInput(debt.amount || "0");
+  if(!total || !amount) return items;
+  var start = monthStart(targetMonth), end = monthEnd(targetMonth);
+  for(var i=1;i<=total;i++){
+    if(paid[i]) continue;
+    var due = installmentDueDate(debt, i);
+    if(!due) continue;
+    if(due >= start && due <= end){
+      items.push({kind:"cuota", title:debt.title || "Deuda", detail:"Cuota " + i + "/" + total + " · vence " + formatDateShortFromDate(due), amount:amount, due:due, debt:debt});
+    }
+  }
+  return items;
+}
+function arrearsProjectedItemsForMonth(targetMonth){
+  var items = [];
+  var start = monthStart(targetMonth);
+  (debts || []).forEach(function(debt){
+    var amount = parseMoneyInput(debt.amount || "0");
+    if(!amount) return;
+    if(isInstallmentDebt(debt)){
+      var total = Number(debt.cuotas_totales || 0), paid = getPaidInstallmentNumbers(debt);
+      for(var i=1;i<=total;i++){
+        if(paid[i]) continue;
+        var due = installmentDueDate(debt, i);
+        if(due && due < start){ items.push({kind:"arrastre", title:debt.title || "Deuda", detail:"Cuota " + i + "/" + total + " vencida " + formatDateShortFromDate(due), amount:amount, due:due, debt:debt}); }
+      }
+    }else if(!isMonthlyFixedDebt(debt)){
+      var ev = debtPanelEvaluation(debt);
+      var due = parseDateFlexible(debt.due_full || debt.vencimiento || debt.due || "");
+      if(ev.kind !== "paid" && due && due < start){ items.push({kind:"arrastre", title:debt.title || "Deuda", detail:"Vencida " + formatDateShortFromDate(due), amount:amount, due:due, debt:debt}); }
+    }
+  });
+  return items;
+}
+function fixedProjectedItemsForMonth(targetMonth){
+  var items = [];
+  (debts || []).forEach(function(debt){
+    if(!isMonthlyFixedDebt(debt)) return;
+    var amount = parseMoneyInput(debt.amount || "0"); if(!amount) return;
+    var periods = getPaidPeriods(debt);
+    var label = monthLabelFromDate(targetMonth);
+    if(periods[label]) return;
+    items.push({kind:"fijo", title:debt.title || "Gasto fijo", detail:"Período " + label, amount:amount, due:targetMonth, debt:debt});
+  });
+  return items;
+}
+function simpleDebtProjectedItemsForMonth(targetMonth){
+  var items = [], start = monthStart(targetMonth), end = monthEnd(targetMonth);
+  (debts || []).forEach(function(debt){
+    if(isInstallmentDebt(debt) || isMonthlyFixedDebt(debt)) return;
+    if(debtPaidThisMonth(debt)) return;
+    var due = parseDateFlexible(debt.due_full || debt.vencimiento || debt.due || "");
+    var amount = parseMoneyInput(debt.amount || "0");
+    if(due && due >= start && due <= end && amount){ items.push({kind:"cuota", title:debt.title || "Deuda", detail:(debt.type || "Deuda") + " · vence " + formatDateShortFromDate(due), amount:amount, due:due, debt:debt}); }
+  });
+  return items;
+}
+function projectionForOffset(offset){
+  var base = new Date();
+  var target = new Date(base.getFullYear(), base.getMonth() + offset, 1);
+  var cuotas = [], fijos = [], arrastres = [];
+  (debts || []).forEach(function(debt){ cuotas = cuotas.concat(installmentProjectedItemsForMonth(debt, target)); });
+  cuotas = cuotas.concat(simpleDebtProjectedItemsForMonth(target));
+  fijos = fixedProjectedItemsForMonth(target);
+  arrastres = arrearsProjectedItemsForMonth(target);
+  var sum = function(list){ return list.reduce(function(a,x){ return a + Number(x.amount || 0); }, 0); };
+  var income = previousMonthIncomeEstimate();
+  var totalCuotas = sum(cuotas), totalFijos = sum(fijos), totalArrastre = sum(arrastres);
+  var total = totalCuotas + totalFijos + totalArrastre;
+  var disponible = income.value - total;
+  var pct = income.value > 0 ? Math.round((total / income.value) * 100) : 0;
+  return {date:target, label:monthLabelFromDate(target), cuotas:cuotas, fijos:fijos, arrastres:arrastres, totalCuotas:totalCuotas, totalFijos:totalFijos, totalArrastre:totalArrastre, total:total, income:income.value, incomeSource:income.source, disponible:disponible, pct:pct};
+}
+function projectionHealthHtml(pct){
+  if(pct <= 35) return {cls:"proj-ok", text:"🟢 Carga financiera " + pct + "%"};
+  if(pct <= 50) return {cls:"proj-warn", text:"🟡 Atención " + pct + "%"};
+  return {cls:"proj-risk", text:"🔴 Mes exigido " + pct + "%"};
+}
+function setProjectionMonth(offset){ projectionMonthOffset = Number(offset || 0); renderProjectionView(); }
+function projectionItemHtml(item){
+  var icon = item.kind === "arrastre" ? "🚨" : (item.kind === "fijo" ? "🏠" : "💳");
+  return '<div class="projection-detail-item"><div class="projection-detail-top"><div><b>' + icon + ' ' + item.title + '</b><div class="small">' + item.detail + '</div></div><b>' + formatARS(item.amount) + '</b></div><div class="actions" style="margin-top:10px"><button onclick="openDebt(&quot;' + item.debt.key + '&quot;)">👁️ Ver</button><button class="main-btn" onclick="payDebtByKey(&quot;' + item.debt.key + '&quot;)">💰 Pagar</button></div></div>';
+}
+function renderProjectionView(){
+  var projections = [];
+  for(var i=0;i<6;i++) projections.push(projectionForOffset(i));
+  var selected = projections[Math.max(0, Math.min(5, Number(projectionMonthOffset || 0)))] || projections[0];
+  if(!selected) return;
+  var h = projectionHealthHtml(selected.pct);
+  var setText = function(id, val){ var el=document.getElementById(id); if(el) el.textContent=val; };
+  setText("projectionHeroMonth", selected.label + (projectionMonthOffset===0 ? " · Mes en curso" : ""));
+  setText("projectionTotalMonth", formatARS(selected.total));
+  setText("projectionCuotas", formatARS(selected.totalCuotas));
+  setText("projectionFijos", formatARS(selected.totalFijos));
+  setText("projectionArrastre", formatARS(selected.totalArrastre));
+  setText("projectionDisponible", formatARS(selected.disponible));
+  setText("projectionIncomeNote", "Ingresos estimados: " + formatARS(selected.income) + " · " + selected.incomeSource);
+  var health = document.getElementById("projectionHealth"); if(health){ health.className = "projection-status " + h.cls; health.textContent = h.text; }
+  var strip = document.getElementById("projectionMonthStrip");
+  if(strip){ strip.innerHTML = projections.map(function(p,idx){ return '<button class="projection-month-btn ' + (idx===projectionMonthOffset?'active':'') + '" onclick="setProjectionMonth(' + idx + ')"><b>' + p.label.replace(' ', '<br>') + '</b><span>' + formatARS(p.total) + '</span></button>'; }).join(''); }
+  var max = projections.reduce(function(a,p){ return Math.max(a,p.total); },1);
+  var bars = document.getElementById("projectionBars");
+  if(bars){ bars.innerHTML = projections.map(function(p){ var w = Math.max(3, Math.round((p.total/max)*100)); return '<div class="projection-bar-row"><span>' + p.label.split(' ')[0] + '</span><div class="projection-bar-track"><div class="projection-bar-fill" style="width:' + w + '%"></div></div><b>' + formatARS(p.total) + '</b></div>'; }).join(''); }
+  var arrears = document.getElementById("projectionArrearsList");
+  if(arrears){ arrears.innerHTML = selected.arrastres.length ? selected.arrastres.map(projectionItemHtml).join('') : '<div class="event">Sin arrastres vencidos para este mes.</div>'; }
+  var details = document.getElementById("projectionDetailList");
+  if(details){
+    var all = selected.cuotas.concat(selected.fijos);
+    details.innerHTML = all.length ? all.map(projectionItemHtml).join('') : '<div class="event">Sin cuotas ni gastos fijos para este mes.</div>';
+  }
+}
+
 /* GLAM v55.1 Desktop Premium helpers */
 function setMoneySafeDesktop(id, value){ var el=document.getElementById(id); if(el) el.textContent = formatARS(Number(value||0)); }
 function desktopIsHiddenView(id){ return id === "login" || id === "pdfView" || id === "dailyReportView" || id === "executiveReportView" || id === "userReportView"; }
@@ -3713,6 +3980,16 @@ document.addEventListener("DOMContentLoaded", function(){
     try{ history.replaceState({view:"login"}, "", "#login"); }catch(e){}
   }
 });
+
+
+function glamDebtSimpleTypesInit(){
+  var newCat=document.getElementById("newDebtCategory");
+  if(newCat){ newCat.innerHTML='<option>Excepcional</option><option>Cuotas</option><option>Fija</option>'; }
+  var editCat=document.getElementById("editDebtType");
+  if(editCat){ editCat.innerHTML='<option>Excepcional</option><option>Cuotas</option><option>Fija</option>'; }
+  if(typeof tipoDeudaChange === "function") tipoDeudaChange();
+}
+if(document.readyState === "loading"){document.addEventListener("DOMContentLoaded", glamDebtSimpleTypesInit);}else{glamDebtSimpleTypesInit();}
 </script>
 </body>
 </html>
